@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EmployeeBenefits.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace EmployeeBenefits.Controllers
 {
@@ -26,6 +24,21 @@ namespace EmployeeBenefits.Controllers
 			return View();
 		}
 
-		
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Input(
+			[Bind("Name, WeeklySalary")] Employee person)
+		{
+			if (ModelState.IsValid)
+			{
+				//todo:
+				//Context.Add(movie);
+				//await _context.SaveChangesAsync();
+				return RedirectToAction("Index");
+			}
+			return View(person);
+		}
+
+
 	}
 }
