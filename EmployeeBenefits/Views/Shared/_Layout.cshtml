@@ -23,99 +23,22 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-		<a class="navbar-brand" href="index.html">Sample Employee Benefits Application</a>
+		<h1><a class="navbar-brand" href="index.html">Sample Employee Benefits Application</a></h1>
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-					<a class="nav-link" href="index.html">
-						<i class="fa fa-fw fa-dashboard"></i>
-						<span class="nav-link-text">Dashboard</span>
-					</a>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-					<a class="nav-link" href="charts.html">
-						<i class="fa fa-fw fa-area-chart"></i>
-						<span class="nav-link-text">Charts</span>
-					</a>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-					<a class="nav-link" href="tables.html">
+				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Employees and Dependents">
+					<a class="nav-link" href="@Url.Action("index", "home")">
 						<i class="fa fa-fw fa-table"></i>
-						<span class="nav-link-text">Tables</span>
+						<span class="nav-link-text">View Employees and Dependents</span>
 					</a>
 				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-						<i class="fa fa-fw fa-wrench"></i>
-						<span class="nav-link-text">Components</span>
-					</a>
-					<ul class="sidenav-second-level collapse" id="collapseComponents">
-						<li>
-							<a href="navbar.html">Navbar</a>
-						</li>
-						<li>
-							<a href="cards.html">Cards</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
-					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
-						<i class="fa fa-fw fa-file"></i>
-						<span class="nav-link-text">Example Pages</span>
-					</a>
-					<ul class="sidenav-second-level collapse" id="collapseExamplePages">
-						<li>
-							<a href="login.html">Login Page</a>
-						</li>
-						<li>
-							<a href="register.html">Registration Page</a>
-						</li>
-						<li>
-							<a href="forgot-password.html">Forgot Password Page</a>
-						</li>
-						<li>
-							<a href="blank.html">Blank Page</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
-					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-						<i class="fa fa-fw fa-sitemap"></i>
-						<span class="nav-link-text">Menu Levels</span>
-					</a>
-					<ul class="sidenav-second-level collapse" id="collapseMulti">
-						<li>
-							<a href="#">Second Level Item</a>
-						</li>
-						<li>
-							<a href="#">Second Level Item</a>
-						</li>
-						<li>
-							<a href="#">Second Level Item</a>
-						</li>
-						<li>
-							<a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-							<ul class="sidenav-third-level collapse" id="collapseMulti2">
-								<li>
-									<a href="#">Third Level Item</a>
-								</li>
-								<li>
-									<a href="#">Third Level Item</a>
-								</li>
-								<li>
-									<a href="#">Third Level Item</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
-					<a class="nav-link" href="#">
-						<i class="fa fa-fw fa-link"></i>
-						<span class="nav-link-text">Link</span>
+				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Input Employees and Dependents">
+					<a class="nav-link" href="tables.html">
+						<i class="fa fa-fw fa-edit"></i>
+						<span class="nav-link-text">Input Employees and Dependents</span>
 					</a>
 				</li>
 			</ul>
@@ -210,16 +133,6 @@
 					</div>
 				</li>
 				<li class="nav-item">
-					<form class="form-inline my-2 my-lg-0 mr-lg-2">
-						<div class="input-group">
-							<input class="form-control" type="text" placeholder="Search for...">
-							<span class="input-group-btn">
-								<button class="btn btn-primary" type="button">
-									<i class="fa fa-search"></i>
-								</button>
-							</span>
-						</div>
-					</form>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" data-toggle="modal" data-target="#exampleModal">
@@ -244,15 +157,21 @@
 					<div class="card text-white bg-primary o-hidden h-100">
 						<div class="card-body">
 							<div class="card-body-icon">
-								<i class="fa fa-fw fa-comments"></i>
+								<i class="fa fa-fw fa-dollar"></i>
 							</div>
-							<div class="mr-5">26 New Messages!</div>
+							<div class="span6">
+								Gross Employee Compensation
+							</div>
+							<div class="span6">
+								<div class="pull-right">
+									$5000
+								</div>
+							</div>
+							<div class="mr-5"></div>
+							<div class="mr-5"></div>
 						</div>
 						<a class="card-footer text-white clearfix small z-1" href="#">
-							<span class="float-left">View Details</span>
-							<span class="float-right">
-								<i class="fa fa-angle-right"></i>
-							</span>
+							<span class="float-right">For TODO Employees</span>
 						</a>
 					</div>
 				</div>
@@ -260,15 +179,12 @@
 					<div class="card text-white bg-warning o-hidden h-100">
 						<div class="card-body">
 							<div class="card-body-icon">
-								<i class="fa fa-fw fa-list"></i>
+								<i class="fa fa-fw fa-dollar"></i>
 							</div>
-							<div class="mr-5">11 New Tasks!</div>
+							<div class="mr-5">Total Employee Benefits</div>
 						</div>
 						<a class="card-footer text-white clearfix small z-1" href="#">
-							<span class="float-left">View Details</span>
-							<span class="float-right">
-								<i class="fa fa-angle-right"></i>
-							</span>
+							<span class="float-right">For TODO Employees and TODO Dependents</span>
 						</a>
 					</div>
 				</div>
@@ -313,8 +229,8 @@
 		<footer class="sticky-footer">
 			<div class="container">
 				<div class="text-center">
-					<small>Built by David Saharkhiz for fun, no copyright to be found here.</small>
-				</div>
+					Built by David Saharkhiz for fun, no copyright to be found here. If you'd like to check me out here is my <a href="http://www.linkedin.com/davidsaharkhiz">LinkedIn</a> and my <a href="http://www.github.com/davidsaharkhiz">GitHub</a>.
+</div>
 			</div>
 		</footer>
 		<!-- Scroll to Top Button-->
