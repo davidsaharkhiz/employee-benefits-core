@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeBenefits.Models
 {
@@ -32,12 +28,41 @@ namespace EmployeeBenefits.Models
 		public decimal BaseAnnualCostOfBenefits { get; set; } = 1000;
 
 		/// <summary>
-		/// Number of dependents associated with a given employee. This affects deductions.
+		/// Number of dependents associated with a given employee. This affects deductions. I'm punting development against dependents as a table and model because there is not yet a valid use case for them.
+		/// If one arises, IPerson would allow such an implementation pretty easily and we could have a m2m relationship here.
 		/// </summary>
 		[Display(Name = "Number of Dependents")]
 		public uint NumberOfDependents { get; set; } = 0;
 
-	
+		/// <summary>
+		/// Some employees are eligible for a discount on the cost of their benefits. This returns the percentage available to this employee.
+		/// </summary>
+		public int BenefitsDiscountPercentage
+		{
+			get
+			{
+				return 1;
+			}
+		}
+
+		/// <summary>
+		/// Some employees are eligible for a discount on the cost of their benefits.  This returns the discount available to this employee in USD.
+		/// </summary>
+		public decimal AnnualBenefitsDiscount { get { 
+			return 1;
+		} }
+
+		/// <summary>
+		/// This computes and returns the net cost to the employer for this employee on a per-paycheck basis. The cost is computed using the employee compensation, benefits, benefits discount, and his or her dependents.
+		/// </summary>
+		public decimal NetCostPerPaycheck
+		{
+			get
+			{
+				return 1;
+			}
+		}
+
 
 	}
 }
