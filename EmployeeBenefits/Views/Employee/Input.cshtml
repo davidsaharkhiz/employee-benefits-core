@@ -14,31 +14,12 @@
 			<span asp-validation-for="Name" class="text-warning"></span>
 		</div>
 
-		<!--
-		<label asp-for="Model.WeeklySalary"></label>
-		@Html.DisplayFor(model => model.WeeklySalary)
-		<input asp-for="WeeklySalary" class="form-control"/>
-		<div>
-			<span asp-validation-for="WeeklySalary" class="text-warning"></span>
-		</div>
-
-		<label asp-for="Model.BaseAnnualCostOfBenefits"></label>
-		@Html.DisplayFor(model => model.BaseAnnualCostOfBenefits)
-		<input asp-for="BaseAnnualCostOfBenefits" class="form-control" />
-		<div>
-			<span asp-validation-for="BaseAnnualCostOfBenefits" class="text-warning"></span>
-		</div>
-		-->
-
 		<label asp-for="@Model.NumberOfDependents"></label>
 		@Html.DisplayFor(model => model.NumberOfDependents)
 		<input asp-for="NumberOfDependents" class="form-control" />
 		<div>
 			<span asp-validation-for="NumberOfDependents" class="text-warning"></span>
 		</div>
-
-		
-
 
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>

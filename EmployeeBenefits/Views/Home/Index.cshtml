@@ -1,6 +1,9 @@
-﻿@{
+﻿@model EmployeeBenefits.ViewModels.HomeIndexViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
+
 
 <div class="container">
 	<div class="card mb-auto">
@@ -54,15 +57,20 @@
 					</tr>
 				</tfoot>
 				<tbody>
+					
+					@foreach (var employee in Model.Employees)
+					{
 					<tr>
-						<td>Tiger Nixon</td>
-						<td>1</td>
-						<td>3000</td>
-						<td>1000</td>
-						<td>500</td>
-						<td>4</td>
-						<td>1800</td>
+						<td>@employee.Name</td>
+						<td>@employee.NumberOfDependents</td>
+						<td>@employee.CompensationPerPaycheck</td>
+						<td>@employee.AnnualBenefitsDiscount</td>
+						<td>@employee.BenefitsDiscountPercentage</td>
+						<td>@employee.BenefitsPerPaycheck</td>
+						<td>@employee.NetCostPerPaycheck</td>
 					</tr>
+					}
+					
 				</tbody>
 			</table>
 		</div>

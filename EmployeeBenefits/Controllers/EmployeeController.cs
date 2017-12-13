@@ -44,7 +44,7 @@ namespace EmployeeBenefits.Controllers
 			{
 				_context.Add(employee);
 				await _context.SaveChangesAsync();
-				return RedirectToAction("Index");
+				return RedirectToAction("index", "home");
 			}
 			return View(employee);
 		}

@@ -2,8 +2,15 @@
 
 namespace EmployeeBenefits.Models
 {
+
     public class Employee : IPerson
     {
+
+		// This is not likely to change for a few billion years, so I think a constant is acceptable #futureproof 
+		private const int WEEKS_PER_YEAR = 26;
+		// Typically these would be configurable by the business but going 100% data-driven for a sample app seems like a waste of time.
+		private const decimal STANDARD_ANNUAL_BENEFITS_USD = 1000;
+		private const decimal STANDARD_ANNUAL_BENEFITS_DEPENDENT_USD = 500;
 
 		public int ID { get; set; }
 		[StringLength(60, MinimumLength = 2)]
@@ -15,9 +22,9 @@ namespace EmployeeBenefits.Models
 		/// </summary>
 		[Range(1, 10000)]
 		[DataType(DataType.Currency)]
-		[Display(Name = "Weekly Salary")]
+		[Display(Name = "Compensation Per Paycheck")]
 		[Required]
-		public decimal WeeklySalary { get; set; } = 2000;
+		public decimal CompensationPerPaycheck { get; set; } = 2000;
 
 		/// <summary>
 		/// Annual deduction from the employee's paycheck in USD to cover the cost of his or her benefits. Right now this is hard coded due to the requirements
@@ -35,7 +42,11 @@ namespace EmployeeBenefits.Models
 		/// </summary>
 		[Display(Name = "Number of Dependents")]
 		[Required]
-		public uint NumberOfDependents { get; set; } = 0;
+		public int NumberOfDependents { get; set; } = 0;
+
+		private decimal StandardAnnualBenefits() {
+			return STANDARD_ANNUAL_BENEFITS_USD + (STANDARD_ANNUAL_BENEFITS_DEPENDENT_USD * NumberOfDependents);
+		}
 
 		/// <summary>
 		/// Some employees are eligible for a discount on the cost of their benefits. This returns the percentage available to this employee.
@@ -49,11 +60,24 @@ namespace EmployeeBenefits.Models
 		}
 
 		/// <summary>
+		/// Computes a benefits deduction on a per-paycheck basis in USD
+		/// </summary>
+		public decimal BenefitsPerPaycheck
+		{
+			get
+			{
+				return AnnualBenefitsDiscount / WEEKS_PER_YEAR;
+			}
+		}
+
+		/// <summary>
 		/// Some employees are eligible for a discount on the cost of their benefits.  This returns the discount available to this employee in USD.
 		/// </summary>
-		public decimal AnnualBenefitsDiscount { get { 
-			return 1;
-		} }
+		public decimal AnnualBenefitsDiscount { 
+			get {
+				return BenefitsDiscountPercentage * StandardAnnualBenefits();
+			} 
+		}
 
 		/// <summary>
 		/// This computes and returns the net cost to the employer for this employee on a per-paycheck basis. The cost is computed using the employee compensation, benefits, benefits discount, and his or her dependents.
@@ -62,7 +86,7 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return 1;
+				return CompensationPerPaycheck - BenefitsPerPaycheck;
 			}
 		}
 
@@ -77,7 +101,7 @@ namespace EmployeeBenefits.Models
 		/// All other params are auto-populated
 		/// </summary>
 		/// <param name="name"></param>
-		public Employee(string name, uint numberOfDependents) {
+		public Employee(string name, int numberOfDependents) {
 			Name = name;
 			NumberOfDependents = numberOfDependents;
 		}

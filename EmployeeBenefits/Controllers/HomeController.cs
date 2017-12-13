@@ -1,26 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using EmployeeBenefits.Data;
+using EmployeeBenefits.ViewModels;
+using System.Linq;
 
 namespace EmployeeBenefits.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+
+		//todo: consider moving this to a BaseController if you get time
+		private readonly EmployeeBenefitsContext _context;
+
+		// Inject our datacontext
+		public HomeController(EmployeeBenefitsContext context)
+		{
+			_context = context;
+		}
+
+		public IActionResult Index()
         {
-            return View();
-        }
+			var viewModel = new HomeIndexViewModel();
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
+			viewModel.Employees = _context.Employees;
 
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+			return View(viewModel);
         }
 
         public IActionResult Error()
