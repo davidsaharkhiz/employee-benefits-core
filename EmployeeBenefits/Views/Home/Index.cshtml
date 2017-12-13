@@ -71,29 +71,26 @@
 	</div>
 </div>
 
-
-		<div class="h1">
-			<h1>Welcome to the Employee Management Sample App!</h1>
-		</div>
-		<div class="card-body">
-			<p>
-				You may use this sample app to input employees and their dependents, and get an immediate preview of projected costs and deductions.
-			</p>
-			<div class="row employee-benefits-button-row">
-					<a href="@Url.Action("input", "employee")">
-						<button type="button" class="btn btn-primary " aria-label="Get Started!">
-							Enter New Employee
-						</button>
-					</a>
-					<a href="@Url.Action("input", "dependent")">
-						<button type="button" class="btn btn-primary " aria-label="Get Started!">
-							Enter New Dependent
-						</button>
-					</a>
-			</div>
-		</div>
-		
-		
+<div class="card-body">
+	<div class="h1">
+		<h1>Welcome to the Employee Management Sample App!</h1>
+	</div>
+	<p>
+		You may use this sample app to input employees and their dependents, and get an immediate preview of projected costs and deductions.
+	</p>
+	<div class="row employee-benefits-button-row">
+			<a href="@Url.Action("input", "employee")">
+				<button type="button" class="btn btn-primary " aria-label="Get Started!">
+					Enter New Employee
+				</button>
+			</a>
+			<a href="@Url.Action("input", "dependent")">
+				<button type="button" class="btn btn-primary " aria-label="Get Started!">
+					Enter New Dependent
+				</button>
+			</a>
+	</div>
+</div>
 
 <!-- Example DataTables Card-->
 <div class="card mb-3">
@@ -113,19 +110,9 @@
 						<th>Benefits Discount</th>
 						<th>Benefits Deduction Per Paycheck</th>
 						<th>Net Cost to the Company Per Paycheck</th>
+						<th>Net Yearly Cost to the Company</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<th>Name</th>
-						<th>Number of Dependents</th>
-						<th>Gross Weekly Compensation</th>
-						<th>Yearly Benefits Deduction</th>
-						<th>Benefits Discount</th>
-						<th>Benefits Deduction Per Paycheck</th>
-						<th>Net Cost to the Company Per Paycheck</th>
-					</tr>
-				</tfoot>
 				<tbody>
 					
 					@foreach (var employee in Model.Employees)
@@ -138,6 +125,7 @@
 						<td>@employee.BenefitsDiscountPercentage%</td>
 						<td>@employee.BenefitsPerPaycheckFormatted</td>
 						<td>@employee.NetCostPerPaycheckFormatted</td>
+						<td>@employee.NetCostFormatted</td>
 					</tr>
 					}
 					
@@ -145,5 +133,5 @@
 			</table>
 		</div>
 	</div>
-	<div class="card-footer small text-muted">Please input your employees.</div>
+	<div class="card-footer small text-muted">All currency amounts are in USD.</div>
 </div>
