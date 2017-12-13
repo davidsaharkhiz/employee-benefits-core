@@ -30,7 +30,7 @@ namespace EmployeeBenefits.Controllers
 		/// </summary>
 		public IActionResult Input()
 		{
-			ViewData["Message"] = $"Input New Employees and Dependents";
+			ViewData["Title"] = "New Employee Input";
 			return View();
 		}
 
@@ -39,6 +39,7 @@ namespace EmployeeBenefits.Controllers
 		public async Task<IActionResult> Input(
 			[Bind("Name, NumberOfDependents")] Employee employee)
 		{
+			ViewData["Title"] = "New Employee Input";
 			if (ModelState.IsValid)
 			{
 				_context.Add(employee);
