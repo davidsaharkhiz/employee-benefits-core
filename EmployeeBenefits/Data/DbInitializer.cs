@@ -49,12 +49,13 @@ namespace EmployeeBenefits.Data
 				},
 				new EmployeeDependent
 				{
-					Employee = employees[2],
+					Employee = employees[0],
 					Dependent = dependents[2]
 				}
 			);
 
 			context.SaveChanges();
+
 			
 		}
 	}

@@ -99,7 +99,7 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return 3;
+				return EmployeeDependents.Count;
 			}
 		}
 
@@ -110,7 +110,7 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return 1;
+				return 0;
 			}
 		}
 
@@ -155,7 +155,7 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return CurrencyHelper.FormatCurrency(BenefitsPerPaycheck);
+				return CurrencyHelper.FormatCurrency(CompensationPerPaycheck);
 			}
 		}
 

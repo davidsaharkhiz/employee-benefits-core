@@ -41,6 +41,9 @@ body.fixed-nav {
     margin-top: 14px;
     margin-bottom: 14px; }
 
+.employee-benefits-button-row button {
+  margin: 2px 12px; }
+
 .smaller {
   font-size: 0.7rem; }
 

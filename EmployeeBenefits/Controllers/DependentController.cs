@@ -20,22 +20,26 @@ namespace EmployeeBenefits.Controllers
 			_context = context;
 		}
 
-		// Prepares a viewmodel with the select list and other data we need to render our page 
+		// Prepares a viewmodel with the select list and other data we need to render our page, attempt to automatically select the matching employee
 		private DependentInputViewModel PrepareViewModel(uint id = 0) {
 			var dropDownList = new SelectList(_context.Employees, "ID", "Name");
 			var message = "Please select one or more employees to associate with this dependent.";
 			if(id > 0) {
 				message = "Your employee has been successfully entered. Now enter any associated employees or press 'Skip' to continue.";
-				var matchingRecord = dropDownList.First(d => d.Value == id.ToString());
+				var matchingRecord = dropDownList.FirstOrDefault(d => d.Value == id.ToString());
 				if (matchingRecord != null)
 				{
 					matchingRecord.Selected = true;
+				}
+				else {
+					//todo: log here but continue
 				}
 			}
 			return new DependentInputViewModel
 			{
 				SelectList = dropDownList,
-				UserMessage = message
+				UserMessage = message,
+				SelectedEmployeeId = id
 			};
 		}
 
@@ -43,27 +47,44 @@ namespace EmployeeBenefits.Controllers
 		/// Renders a form to allow the user to fill out a form to input dependents for a supplied employee
 		/// As part of a future requirement we could implement full CRUD for dependents with multi-select, but for now I'm just creating them at the point of employee creation in the interest of time.
 		/// </summary>
-		public IActionResult Input(uint id)
+		public IActionResult Input(uint id = 0)
 		{
 			ViewData["Title"] = "New Dependent Input";
-			
-			if(!_context.Employees.Any(e => e.ID == id)) {
-				throw new ArgumentException($"Employee with {nameof(id)} {id} does not exist.");
-				//todo: logger here
-			}
 			return View(PrepareViewModel(id));
 
 		}
-
+		
+		/// <summary>
+		/// Processes a form submitted by the user for a new dependent and employee association
+		/// </summary>
+		/// <param name="dependentViewModel">A viewmodel for a filled out form</param>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Input(DependentInputViewModel dependentViewModel)
 		{
 			ViewData["Title"] = "New Dependent Input";
+
+			//todo: move this to custom validation to add to the checks for isvalid
+
+			if(!_context.Employees.Any(e => e.ID == dependentViewModel.SelectedEmployeeId)) {
+				throw new ArgumentException("No such employee found. Input has been spoofed or data is corrupt.");
+			}
+			
+
 			if (ModelState.IsValid)
 			{
-				_context.Add(dependentViewModel);
-				await _context.SaveChangesAsync();
+
+				var newDependent = _context.Add(new Dependent(dependentViewModel.Dependent.Name));
+
+				_context.SaveChanges();
+
+				_context.Add(new EmployeeDependent { 
+					Employee = _context.Employees.First(e => e.ID == dependentViewModel.SelectedEmployeeId),
+					Dependent = newDependent.Entity
+				});
+
+				_context.SaveChanges();
+
 				return RedirectToAction("index", "home");
 			}
 			return View(PrepareViewModel());

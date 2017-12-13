@@ -2,6 +2,7 @@
 using EmployeeBenefits.Data;
 using EmployeeBenefits.ViewModels;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeBenefits.Controllers
 {
@@ -21,10 +22,11 @@ namespace EmployeeBenefits.Controllers
         {
 
 			ViewData["Title"] = "Home Page";
+			
 
 			var viewModel = new HomeIndexViewModel
 			{
-				Employees = _context.Employees
+				Employees = _context.EmployeesWithDependents
 			};
 
 			return View(viewModel);

@@ -1,12 +1,12 @@
 ﻿@model EmployeeBenefits.ViewModels.DependentInputViewModel
 
-<div>
-	<h1>Dependent Input</h1>
-</div>
-<p>
-	@Model.UserMessage
-</p>
 <div class="employee-benefits-form-wrapper">
+	<div>
+		<h1>Dependent Input</h1>
+	</div>
+	<p>
+		@Model.UserMessage
+	</p>
 	<form asp-controller="Dependent" asp-action="input" method="post">
 		<label asp-for="@Model.Dependent.Name"></label>
 		@Html.DisplayFor(model => Model.Dependent.Name)
@@ -14,17 +14,21 @@
 		<div>
 			<span asp-validation-for="@Model.Dependent.Name" class="text-warning"></span>
 		</div>
+		<div>
+			<label asp-for="@Model.Dependent.EmployeeDependents"></label>
+		</div>
 
-		<label asp-for="@Model.Dependent.EmployeeDependents"></label>
-		@Html.DisplayFor(model => model.Dependent.EmployeeDependents)
-
-		@Html.DropDownListFor(model => model.Employees, Model.SelectList)
+		@Html.DropDownListFor(model => model.SelectedEmployeeId, Model.SelectList)
 
 		<div>
 			<button type="submit" class="btn btn-primary">Submit</button>
-			<a class="nav-link" href="@Url.Action("index", "home")">
-				<button class="btn btn-info">Skip</button>
-			</a>
 		</div>
 	</form>
+	@if (Model.SelectedEmployeeId > 0)
+	{
+		<span>If you do not wish to enter any dependents, you may also </span>
+		<a href="@Url.Action("index", "home")">
+			<button class="btn btn-info">Skip</button>
+		</a>
+	}
 </div>

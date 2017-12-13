@@ -2,6 +2,12 @@
 
 
 <div class="employee-benefits-form-wrapper">
+	<div>
+		<h1>Employee Input</h1>
+	</div>
+	<p>
+		Please input an employee.
+	</p>
 	<form asp-controller="Employee" asp-action="input" method="post">
 		<label asp-for="@Model.Name"></label>
 		@Html.DisplayFor(model => model.Name)
