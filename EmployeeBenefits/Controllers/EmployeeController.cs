@@ -30,8 +30,7 @@ namespace EmployeeBenefits.Controllers
 		/// </summary>
 		public IActionResult Input()
 		{
-			ViewData["Message"] = $"Input New Employees and Dependents: " + _context.Employees.Count(); //todo: remove
-
+			ViewData["Message"] = $"Input New Employees and Dependents";
 			return View();
 		}
 

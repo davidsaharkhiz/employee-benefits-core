@@ -15,16 +15,45 @@ namespace EmployeeBenefits.Data
 				return;   // DB has been seeded
 			}
 
-			var students = new Employee[]
+			var employees = new Employee[]
 			{
-				new Employee("April", 2),
-				new Employee("Barry", 2),
-				new Employee("Charlie", 2)
+				new Employee("April"),
+				new Employee("Barry"),
+				new Employee("Charlie")
 			};
-			foreach (Employee s in students)
+			foreach (Employee s in employees)
 			{
 				context.Employees.Add(s);
 			}
+
+			var dependents = new Dependent[]
+			{
+				new Dependent("Jack Jack"),
+				new Dependent("Dinosaur Junior"),
+				new Dependent("BB-8")
+			};
+			foreach (Employee s in employees)
+			{
+				context.Employees.Add(s);
+			}
+
+			context.AddRange(
+				new EmployeeDependent { 
+					Employee = employees[0],
+					Dependent = dependents[0]
+				},
+				new EmployeeDependent
+				{
+					Employee = employees[1],
+					Dependent = dependents[0]
+				},
+				new EmployeeDependent
+				{
+					Employee = employees[2],
+					Dependent = dependents[2]
+				}
+			);
+
 			context.SaveChanges();
 			
 		}

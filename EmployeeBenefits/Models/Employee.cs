@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using EmployeeBenefits.Helpers;
 
 namespace EmployeeBenefits.Models
 {
@@ -8,14 +11,31 @@ namespace EmployeeBenefits.Models
 
 		// This is not likely to change for a few billion years, so I think a constant is acceptable #futureproof 
 		private const int WEEKS_PER_YEAR = 26;
-		// Typically these would be configurable by the business but going 100% data-driven for a sample app seems like a waste of time.
-		private const decimal STANDARD_ANNUAL_BENEFITS_USD = 1000;
-		private const decimal STANDARD_ANNUAL_BENEFITS_DEPENDENT_USD = 500;
 
 		public int ID { get; set; }
 		[StringLength(60, MinimumLength = 2)]
 		[Required]
 		public string Name { get; set; }
+
+		// Many to many relationship here just to handle the edge-case of working couples sharing the same dependent
+		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
+
+		/// <summary>
+		/// Parameterless constructor for Model Binding
+		/// </summary>
+		public Employee()
+		{
+
+		}
+
+		/// <summary>
+		/// Convenience constructor
+		/// </summary>
+		/// <param name="name">Name of the employee</param>
+		public Employee(string name)
+		{
+			Name = name;
+		}
 
 		/// <summary>
 		/// How much the employee is compensated each week in USD. This is gross compensations before any calculations are applied.
@@ -27,7 +47,7 @@ namespace EmployeeBenefits.Models
 		public decimal CompensationPerPaycheck { get; set; } = 2000;
 
 		/// <summary>
-		/// Annual deduction from the employee's paycheck in USD to cover the cost of his or her benefits. Right now this is hard coded due to the requirements
+		/// Annual deduction from the employee's paycheck in USD to cover the cost of his or her benefits. Right now this leans on a hard-coded default given the simple requirements 
 		/// but in a real environment this would undoubtedly change in the future....I've added it here in anticipation of eventual configuration of these values.
 		/// </summary>
 		[Range(1, 10000)]
@@ -36,17 +56,51 @@ namespace EmployeeBenefits.Models
 		[Required]
 		public decimal BaseAnnualCostOfBenefits { get; set; } = 1000;
 
+		#region Private Properties
+
+		/// Benefits before any discount is added
+		private decimal StandardAnnualBenefits()
+		{
+			return BaseAnnualCostOfBenefits + (500 * NumberOfDependents); //todo: replace this with a calculation from the dependents by looping over them
+		}
+
 		/// <summary>
-		/// todo: replace with child table m2m
+		/// Computes a benefits deduction on a per-paycheck basis in USD
+		/// </summary>
+		private decimal BenefitsPerPaycheck
+		{
+			get
+			{
+				return AnnualBenefitsDiscount / WEEKS_PER_YEAR;
+			}
+		}
+
+		/// <summary>
+		/// Some employees are eligible for a discount on the cost of their benefits.  This returns the discount available to this employee in USD.
+		/// </summary>
+		private decimal AnnualBenefitsDiscount
+		{
+			get
+			{
+				return Decimal.Divide((StandardAnnualBenefits() * (100 - BenefitsDiscountPercentage)), 100);
+			}
+		}
+
+		#endregion
+
+		#region Computed Properties
+
+		/// <summary>
+		/// Returns the number of Dependents
 		/// </summary>
 		[Display(Name = "Number of Dependents")]
 		[Required]
-		public int NumberOfDependents { get; set; } = 0;
-
-		//todo: NEVERMIND YOU CAN'T DO THIS BECAUSE: Anyone whose name starts with ‘A’ gets a 10% discount, employee or dependent
-
-		private decimal StandardAnnualBenefits() {
-			return STANDARD_ANNUAL_BENEFITS_USD + (STANDARD_ANNUAL_BENEFITS_DEPENDENT_USD * NumberOfDependents);
+		public int NumberOfDependents
+		{
+			get
+			{
+				return 3;
+			}
 		}
 
 		/// <summary>
@@ -60,52 +114,52 @@ namespace EmployeeBenefits.Models
 			}
 		}
 
+		
 		/// <summary>
-		/// Computes a benefits deduction on a per-paycheck basis in USD
+		/// Returns the cost of employee and dependent benefits for a pay period, formatted in USD
 		/// </summary>
-		public decimal BenefitsPerPaycheck
+		public string BenefitsPerPaycheckFormatted
+		{
+			get { return CurrencyHelper.FormatCurrency(BenefitsPerPaycheck); }
+		}
+		
+
+		/// <summary>
+		/// This computes and returns the net cost to the employer for this employee on a per-paycheck basis. The cost is computed using the employee compensation, benefits, benefits discount, and his or her dependents.
+		/// </summary>
+		/// <returns>A formatted string in USD</returns>
+		public string NetCostPerPaycheckFormatted
 		{
 			get
 			{
-				return AnnualBenefitsDiscount / WEEKS_PER_YEAR;
+				return CurrencyHelper.FormatCurrency(CompensationPerPaycheck - BenefitsPerPaycheck);
 			}
 		}
 
 		/// <summary>
 		/// Some employees are eligible for a discount on the cost of their benefits.  This returns the discount available to this employee in USD.
 		/// </summary>
-		public decimal AnnualBenefitsDiscount { 
-			get {
-				return BenefitsDiscountPercentage * StandardAnnualBenefits();
-			} 
-		}
-
-		/// <summary>
-		/// This computes and returns the net cost to the employer for this employee on a per-paycheck basis. The cost is computed using the employee compensation, benefits, benefits discount, and his or her dependents.
-		/// </summary>
-		public decimal NetCostPerPaycheck
+		/// <returns>A formatted string in USD</returns>
+		public string AnnualBenefitsDiscountFormatted
 		{
 			get
 			{
-				return CompensationPerPaycheck - BenefitsPerPaycheck;
+				return CurrencyHelper.FormatCurrency(AnnualBenefitsDiscount);
+			}
+		}
+		/// <summary>
+		/// How much does this employee cost to the company per pay period
+		/// </summary>
+		/// <returns>A formatted string in USD</returns>
+		public string CompensationPerPaycheckFormatted
+		{
+			get
+			{
+				return CurrencyHelper.FormatCurrency(BenefitsPerPaycheck);
 			}
 		}
 
-		/// <summary>
-		/// Parameterless constructor for Model Binding
-		/// </summary>
-		public Employee() {
-
-		}
-
-		/// <summary>
-		/// All other params are auto-populated
-		/// </summary>
-		/// <param name="name"></param>
-		public Employee(string name, int numberOfDependents) {
-			Name = name;
-			NumberOfDependents = numberOfDependents;
-		}
+		#endregion
 
 
 	}

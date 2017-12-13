@@ -8,3 +8,4 @@ C:\Users\David\source\repos\EmployeeBenefits\employee-benefits-core\EmployeeBene
 C:\Users\David\source\repos\EmployeeBenefits\employee-benefits-core\EmployeeBenefits\obj\Debug\netcoreapp1.1\EmployeeBenefits.AssemblyInfo.cs
 C:\Users\David\source\repos\EmployeeBenefits\employee-benefits-core\EmployeeBenefits\obj\Debug\netcoreapp1.1\EmployeeBenefits.dll
 C:\Users\David\source\repos\EmployeeBenefits\employee-benefits-core\EmployeeBenefits\obj\Debug\netcoreapp1.1\EmployeeBenefits.pdb
+C:\Users\David\source\repos\EmployeeBenefits\employee-benefits-core\EmployeeBenefits\obj\Debug\netcoreapp1.1\EmployeeBenefits.csprojResolveAssemblyReference.cache
