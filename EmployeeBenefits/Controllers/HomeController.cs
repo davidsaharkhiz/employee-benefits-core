@@ -19,16 +19,23 @@ namespace EmployeeBenefits.Controllers
 
 		public IActionResult Index()
         {
-			var viewModel = new HomeIndexViewModel();
 
-			viewModel.Employees = _context.Employees;
+			ViewData["Title"] = "Home Page";
+
+			var viewModel = new HomeIndexViewModel
+			{
+				Employees = _context.Employees
+			};
 
 			return View(viewModel);
         }
 
         public IActionResult Error()
         {
-            return View();
+
+			ViewData["Title"] = "Error Page";
+
+			return View();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace EmployeeBenefits.Controllers
 			{
 				_context.Add(employee);
 				await _context.SaveChangesAsync();
-				return RedirectToAction("dependent", "input", new { employee.ID });
+				return RedirectToAction("input", "dependent", new { employee.ID });
 			}
 			return View(employee);
 		}

@@ -15,7 +15,12 @@ namespace EmployeeBenefits.Models
 		[Required]
 		public string Name { get; set; }
 
+		[Display(Name = "Associated Employee")]
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
+
+		public Dependent() {
+
+		}
 
 		/// <summary>
 		/// Convenience constructor

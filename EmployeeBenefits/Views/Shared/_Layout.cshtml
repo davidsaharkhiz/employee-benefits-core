@@ -23,7 +23,7 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-		<h1><a class="navbar-brand" href="index.html">Sample Employee Benefits Application</a></h1>
+		<h1><a class="navbar-brand" href="@Url.Action("index", "home")">Sample Employee Benefits Application</a></h1>
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -53,36 +53,6 @@
 				<li class="nav-item text-white">
 					A .NET Core Application
 				</li>
-				<!--
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-fw fa-envelope"></i>
-						<span class="d-lg-none">
-							Messages
-							<span class="badge badge-pill badge-primary">12 New</span>
-						</span>
-						<span class="indicator text-primary d-none d-lg-block">
-							<i class="fa fa-fw fa-circle"></i>
-						</span>
-					</a>
-					<div class="dropdown-menu" aria-labelledby="messagesDropdown">
-						<h6 class="dropdown-header">New Messages:</h6>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">
-							<strong>David Saharkhiz</strong>
-							<span class="small float-right text-muted">11:21 AM</span>
-							<div class="dropdown-message small">Hey there! Who is awesome? You're awesome!</div>
-						</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item small" href="#">View all messages</a>
-					</div>
-				</li>
-				
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-						<i class="fa fa-fw fa-sign-out"></i>Logout
-					</a>
-				</li>-->
 			</ul>
 		</div>
 	</nav>
@@ -91,7 +61,7 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item">
-					<a href="@Url.Action("index", "home")">Home</a>
+					<a href="@Url.Action("index", "home")">Employee Benefits App</a>
 				</li>
 				<li class="breadcrumb-item active">@ViewData["title"]</li>
 			</ol>

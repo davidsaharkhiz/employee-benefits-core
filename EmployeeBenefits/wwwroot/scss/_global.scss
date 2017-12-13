@@ -54,9 +54,14 @@ body.fixed-nav {
   }
 }
 
+// Custom Styles
 //todo: consider moving this to its own sass file
 .employee-benefits-form-wrapper {
-	button {
-		margin-top: 100px;
+
+	margin: 20px;
+
+	button, input {
+		margin-top: 14px;
+		margin-bottom: 14px;
 	}
 }
