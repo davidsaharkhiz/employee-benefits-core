@@ -16,6 +16,7 @@ namespace EmployeeBenefits.Models
 		[Range(1, 10000)]
 		[DataType(DataType.Currency)]
 		[Display(Name = "Weekly Salary")]
+		[Required]
 		public decimal WeeklySalary { get; set; } = 2000;
 
 		/// <summary>
@@ -25,6 +26,7 @@ namespace EmployeeBenefits.Models
 		[Range(1, 10000)]
 		[DataType(DataType.Currency)]
 		[Display(Name = "Annual Cost of Benefits")]
+		[Required]
 		public decimal BaseAnnualCostOfBenefits { get; set; } = 1000;
 
 		/// <summary>
@@ -32,6 +34,7 @@ namespace EmployeeBenefits.Models
 		/// If one arises, IPerson would allow such an implementation pretty easily and we could have a m2m relationship here.
 		/// </summary>
 		[Display(Name = "Number of Dependents")]
+		[Required]
 		public uint NumberOfDependents { get; set; } = 0;
 
 		/// <summary>
@@ -61,6 +64,22 @@ namespace EmployeeBenefits.Models
 			{
 				return 1;
 			}
+		}
+
+		/// <summary>
+		/// Parameterless constructor for Model Binding
+		/// </summary>
+		public Employee() {
+
+		}
+
+		/// <summary>
+		/// All other params are auto-populated
+		/// </summary>
+		/// <param name="name"></param>
+		public Employee(string name, uint numberOfDependents) {
+			Name = name;
+			NumberOfDependents = numberOfDependents;
 		}
 
 

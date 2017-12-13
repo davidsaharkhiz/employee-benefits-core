@@ -1,11 +1,22 @@
 ﻿using EmployeeBenefits.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using EmployeeBenefits.Data;
+using System.Linq;
 
 namespace EmployeeBenefits.Controllers
 {
 	public class EmployeeController : Controller
 	{
+		//todo: consider moving this to a BaseController if you get time
+		private readonly EmployeeBenefitsContext _context;
+
+		// Inject our datacontext
+		public EmployeeController(EmployeeBenefitsContext context)
+		{
+			_context = context;
+		}
+
 		/// <summary>
 		/// Home Page for employee controller
 		/// </summary>
@@ -19,7 +30,7 @@ namespace EmployeeBenefits.Controllers
 		/// </summary>
 		public IActionResult Input()
 		{
-			ViewData["Message"] = "Your application description page.";
+			ViewData["Message"] = $"Input New Employees and Dependents: " + _context.Employees.Count(); //todo: remove
 
 			return View();
 		}
@@ -27,16 +38,15 @@ namespace EmployeeBenefits.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Input(
-			[Bind("Name, WeeklySalary")] Employee person)
+			[Bind("Name, WeeklySalary")] Employee employee)
 		{
 			if (ModelState.IsValid)
 			{
-				//todo:
-				//Context.Add(movie);
-				//await _context.SaveChangesAsync();
+				_context.Add(employee);
+				await _context.SaveChangesAsync();
 				return RedirectToAction("Index");
 			}
-			return View(person);
+			return View(employee);
 		}
 
 

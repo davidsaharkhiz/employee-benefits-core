@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,14 +7,13 @@ using EmployeeBenefits.Models;
 
 namespace EmployeeBenefits.Data
 {
-	public class EmployeeContext : DbContext
+	public class EmployeeBenefitsContext : DbContext
 	{
-		public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
+		public EmployeeBenefitsContext(DbContextOptions<EmployeeBenefitsContext> options) : base(options)
 		{
 		}
 
-		public DbSet<Course> Courses { get; set; }
-		public DbSet<Enrollment> Enrollments { get; set; }
-		public DbSet<Student> Students { get; set; }
+		public DbSet<Employee> Employees { get; set; }
+
 	}
-}*/
+}
