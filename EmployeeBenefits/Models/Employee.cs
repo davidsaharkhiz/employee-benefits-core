@@ -14,24 +14,30 @@ namespace EmployeeBenefits.Models
 		[Required]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// How much the employee is compensated each week in USD. This is gross compensations before any calculations are applied.
+		/// </summary>
 		[Range(1, 10000)]
 		[DataType(DataType.Currency)]
 		[Display(Name = "Weekly Salary")]
 		public decimal WeeklySalary { get; set; } = 2000;
 
-		[Display(Name = "Number of Dependents")]
-		public int NumberOfDependents { get; set; } = 0;
+		/// <summary>
+		/// Annual deduction from the employee's paycheck in USD to cover the cost of his or her benefits. Right now this is hard coded due to the requirements
+		/// but in a real environment this would undoubtedly change in the future....I've added it here in anticipation of eventual configuration of these values.
+		/// </summary>
+		[Range(1, 10000)]
+		[DataType(DataType.Currency)]
+		[Display(Name = "Annual Cost of Benefits")]
+		public decimal BaseAnnualCostOfBenefits { get; set; } = 1000;
 
-		/* todo: remove me
-		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-		{
-			if (text.Length < number)
-			{
-				yield return new ValidationResult(
-					"Text too short, must be at least: " + number.ToString(),
-					new[] { "number" });
-			}
-		}*/
+		/// <summary>
+		/// Number of dependents associated with a given employee. This affects deductions.
+		/// </summary>
+		[Display(Name = "Number of Dependents")]
+		public uint NumberOfDependents { get; set; } = 0;
+
+	
 
 	}
 }
