@@ -5,13 +5,13 @@ using EmployeeBenefits.Data;
 
 namespace EmployeeBenefits.Controllers
 {
-	public class EmployeeController : Controller
+	public class DependentController : Controller
 	{
 		//todo: consider moving this to a BaseController if you get time
 		private readonly EmployeeBenefitsContext _context;
 
 		// Inject our datacontext
-		public EmployeeController(EmployeeBenefitsContext context)
+		public DependentController(EmployeeBenefitsContext context)
 		{
 			_context = context;
 		}
@@ -25,11 +25,12 @@ namespace EmployeeBenefits.Controllers
 		}
 
 		/// <summary>
-		/// Renders a form to allow the user to fill out a form to input an employee
+		/// Renders a form to allow the user to fill out a form to input dependents for a supplied employee
 		/// </summary>
-		public IActionResult Input()
+		public IActionResult Input(int id)
 		{
-			ViewData["Title"] = "New Employee Input";
+			ViewData["Title"] = "New Dependent Input";
+			ViewData["EmployeeID"] = "id";
 			return View();
 		}
 
@@ -38,12 +39,12 @@ namespace EmployeeBenefits.Controllers
 		public async Task<IActionResult> Input(
 			[Bind("Name")] Employee employee)
 		{
-			ViewData["Title"] = "New Employee Input";
+			ViewData["Title"] = "New Dependent Input";
 			if (ModelState.IsValid)
 			{
 				_context.Add(employee);
 				await _context.SaveChangesAsync();
-				return RedirectToAction("dependent", "input", new { employee.ID });
+				return RedirectToAction("home", "index");
 			}
 			return View(employee);
 		}

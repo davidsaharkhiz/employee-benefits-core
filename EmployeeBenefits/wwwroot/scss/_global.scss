@@ -53,3 +53,10 @@ body.fixed-nav {
     font-weight: 800;
   }
 }
+
+//todo: consider moving this to its own sass file
+.employee-benefits-form-wrapper {
+	button {
+		margin-top: 100px;
+	}
+}
