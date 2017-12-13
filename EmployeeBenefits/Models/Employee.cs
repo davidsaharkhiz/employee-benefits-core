@@ -37,12 +37,13 @@ namespace EmployeeBenefits.Models
 		public decimal BaseAnnualCostOfBenefits { get; set; } = 1000;
 
 		/// <summary>
-		/// Number of dependents associated with a given employee. This affects deductions. I'm punting development against dependents as a table and model because there is not yet a valid use case for them.
-		/// If one arises, IPerson would allow such an implementation pretty easily and we could have a m2m relationship here.
+		/// todo: replace with child table m2m
 		/// </summary>
 		[Display(Name = "Number of Dependents")]
 		[Required]
 		public int NumberOfDependents { get; set; } = 0;
+
+		//todo: NEVERMIND YOU CAN'T DO THIS BECAUSE: Anyone whose name starts with ‘A’ gets a 10% discount, employee or dependent
 
 		private decimal StandardAnnualBenefits() {
 			return STANDARD_ANNUAL_BENEFITS_USD + (STANDARD_ANNUAL_BENEFITS_DEPENDENT_USD * NumberOfDependents);

@@ -38,7 +38,7 @@ namespace EmployeeBenefits.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Input(
-			[Bind("Name, WeeklySalary")] Employee employee)
+			[Bind("Name, NumberOfDependents")] Employee employee)
 		{
 			if (ModelState.IsValid)
 			{
