@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using EmployeeBenefits.Data;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeeBenefits
 {
@@ -19,7 +22,26 @@ namespace EmployeeBenefits
                 .UseApplicationInsights()
                 .Build();
 
-            host.Run();
+			using (var scope = host.Services.CreateScope())
+			{
+				var services = scope.ServiceProvider;
+				try
+				{
+					var context = services.GetRequiredService<EmployeeBenefitsContext>();
+					DbInitializer.Initialize(context);
+				}
+				catch (Exception ex)
+				{
+					var logger = services.GetRequiredService<ILogger<Program>>();
+					logger.LogError($"An error occured seeding test data. {ex.Message}");
+				}
+			}
+
+			host.Run();
         }
-    }
+
+		
+
+
+	}
 }

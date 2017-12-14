@@ -1,35 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using EmployeeBenefits.Data;
+using EmployeeBenefits.ViewModels;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeBenefits.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public IActionResult Index()
+
+		public HomeController(EmployeeBenefitsContext context) : base(context) {
+			_context = context;
+		}
+
+		public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+			@ViewData["Title"] = "Home Page";
+			var employees = _context.EmployeesWithAllData;
+			var dependents = _context.Dependents;
+			var viewModel = new HomeIndexViewModel
+			{
+				Employees = employees,
+				NumberOfEmployees = employees.Count(),
+				NumberOfDependents = dependents.Count(),
+				GrossEmployeeCompensation = Helpers.CurrencyHelper.FormatCurrency(employees.Sum(e => e.CompensationPerPaycheck * Helpers.Constants.WEEKS_PER_YEAR)),
+				TotalEmployeeBenefits = Helpers.CurrencyHelper.FormatCurrency(employees.Sum(e => e.AdjustedAnnualBenefits()))
+			};
+			return View(viewModel);
         }
 
         public IActionResult Error()
         {
-            return View();
+			ViewData["Title"] = "Error Page";
+			return View();
         }
     }
 }

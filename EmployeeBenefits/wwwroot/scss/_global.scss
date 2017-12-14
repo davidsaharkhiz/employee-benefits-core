@@ -53,3 +53,30 @@ body.fixed-nav {
     font-weight: 800;
   }
 }
+
+// Custom Styles
+//todo: consider moving this to its own sass file
+.employee-benefits-form-wrapper {
+
+	margin: 20px;
+
+	button, input, select, textarea {
+		margin-top: 7px;
+		margin-bottom: 7px;
+	}
+}
+
+.employee-benefits-button-row {
+	button {
+		margin: 2px 12px;
+	}
+}
+
+.employee-benefits-homepage-icon-row {
+	font-size-adjust: 0.8;
+
+	.pull-right {
+		margin-right: 40px;
+	}
+
+}

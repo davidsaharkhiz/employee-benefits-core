@@ -1,0 +1,22 @@
+﻿@model EmployeeBenefits.Models.Employee
+
+
+<div class="employee-benefits-form-wrapper">
+	<div>
+		<h1>Employee Input</h1>
+	</div>
+	<p>
+		Please input an employee.
+	</p>
+	<form asp-controller="Employee" asp-action="input" method="post">
+		<label asp-for="@Model.Name"></label>
+		@Html.DisplayFor(model => model.Name)
+		<input asp-for="Name" class="form-control" />
+		<div>
+			<span asp-validation-for="Name" class="text-warning"></span>
+		</div>
+		<div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</form>
+</div>
