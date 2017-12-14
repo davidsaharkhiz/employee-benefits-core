@@ -9,13 +9,11 @@ namespace EmployeeBenefits.Models
     public class Employee : IPerson
     {
 
-		// This is not likely to change for a few billion years, so I think a constant is acceptable #futureproof 
-		private const int WEEKS_PER_YEAR = 26;
-
 		public int ID { get; set; }
 		[StringLength(60, MinimumLength = 2)]
 		[Required]
 		public string Name { get; set; }
+		private List<Discount> Discounts { get; set; } = new List<Discount>();
 
 		// Many to many relationship here just to handle the edge-case of working couples sharing the same dependent
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
@@ -25,7 +23,7 @@ namespace EmployeeBenefits.Models
 		/// </summary>
 		public Employee()
 		{
-
+			var testDiscount = new Discount();
 		}
 
 		/// <summary>
@@ -71,8 +69,23 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return AnnualBenefitsDiscount / WEEKS_PER_YEAR;
+				return AnnualBenefitsDiscount / Constants.WEEKS_PER_YEAR;
 			}
+		}
+
+		/// <summary>
+		/// Determine how much of a discount this person gets based on eligibility criteria
+		/// </summary>
+		/// <returns>The percentage discount availabile</returns>
+		private int DetermineDiscountPercentage()
+		{
+			var totalDiscount = 0;
+			foreach(var discount in Discounts) {
+				if(discount.Active) {
+					totalDiscount += discount.DiscountCalculation(this);
+				}
+			}
+			return totalDiscount;
 		}
 
 		/// <summary>
@@ -103,6 +116,8 @@ namespace EmployeeBenefits.Models
 			}
 		}
 
+		
+
 		/// <summary>
 		/// Some employees are eligible for a discount on the cost of their benefits. This returns the percentage available to this employee.
 		/// </summary>
@@ -110,7 +125,8 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return 0;
+				
+				return DetermineDiscountPercentage();
 			}
 		}
 
@@ -144,7 +160,7 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return CurrencyHelper.FormatCurrency((CompensationPerPaycheck * WEEKS_PER_YEAR) - AnnualBenefitsDiscount);
+				return CurrencyHelper.FormatCurrency((CompensationPerPaycheck * Constants.WEEKS_PER_YEAR) - AnnualBenefitsDiscount);
 			}
 		}
 

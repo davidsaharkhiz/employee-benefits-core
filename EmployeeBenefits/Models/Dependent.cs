@@ -14,6 +14,7 @@ namespace EmployeeBenefits.Models
 		[StringLength(60, MinimumLength = 2)]
 		[Required]
 		public string Name { get; set; }
+		//public List<Discount> Discounts { get; set; }
 
 		[Display(Name = "Associated Employee")]
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace EmployeeBenefits.Models
 {
@@ -9,5 +9,8 @@ namespace EmployeeBenefits.Models
 	{
 		int ID { get; set; }
 		string Name { get; set; }
+
+		//List<Discount> Discounts { get; set; }
 	}
+
 }

@@ -56,7 +56,14 @@ namespace EmployeeBenefits.Data
 
 			context.SaveChanges();
 
-			
+			var testDiscount = new Discount();
+			testDiscount.Active = true;
+			testDiscount.Name = Discount.Names.BEGINS_WITH_LETTER_CASE_INSENSITIVE;
+			testDiscount.OptionalOperand = "A";
+			context.Discounts.Add(testDiscount);
+			context.SaveChanges();
+
+
 		}
 	}
 }

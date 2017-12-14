@@ -29,6 +29,9 @@ namespace EmployeeBenefits.Controllers
 				Employees = _context.EmployeesWithDependents
 			};
 
+			var todoremove = _context.DiscountsWithCalculations.First();
+			var test = todoremove.DiscountCalculation.Invoke(_context.Employees.First());
+
 			return View(viewModel);
         }
 
