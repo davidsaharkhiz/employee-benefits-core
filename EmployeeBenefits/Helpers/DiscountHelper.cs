@@ -34,6 +34,27 @@ namespace EmployeeBenefits.Helpers
 			return totalDiscount;
 		}
 
+		/// <summary>
+		/// Computes a human-readable summary of discounts for each supplied person (i.e. dependent)
+		/// </summary>
+		/// <returns>Returns a human-readable summary of discounts for each dependent</returns>
+		public List<string> BenefitsDiscountSummaryForDependents(List<Dependent> people)
+		{
+			var summaries = new List<string>();
+			
+			foreach(var person in people) {
+				foreach (var discount in Discounts)
+				{
+					if (discount.Active && discount.DiscountCalculation(person) > 0)
+					{
+						summaries.Add($"{person.Name} received {discount.Amount}% Discount");
+					}
+				}
+			}
+
+			return summaries;
+		}
+
 		public decimal ComputeDiscountForAPerson(IPerson person) {
 			return Decimal.Divide((person.BaseAnnualCostOfBenefits * (100 - person.BenefitsDiscountPercentage())), 100);
 		}

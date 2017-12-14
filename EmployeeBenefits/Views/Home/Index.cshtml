@@ -108,13 +108,16 @@
 				<thead>
 					<tr>
 						<th>Name</th>
+						<th>Paycheck</th>
+						<th>Standard Benefits</th>
+						<th>Benefits Discount (for employee only)</th>
 						<th>Number of Dependents</th>
-						<th>Gross Weekly Compensation</th>
+						<th>Standard Dependent Benefits</th>
+						<th>Discount By Dependent</th>
+						<th>Total Benefits Per Paycheck</th>
+						<th>Adjusted Paycheck</th>
 						<th>Yearly Benefits Deduction</th>
-						<th>Benefits Discount (for me)</th>
-						<th>Benefits Deduction Per Paycheck</th>
-						<th>Net Cost to the Company Per Paycheck</th>
-						<th>Net Yearly Cost to the Company</th>
+						<th>Adjusted Yearly Salary</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -123,12 +126,20 @@
 					{
 					<tr>
 						<td>@employee.Name</td>
-						<td>@employee.NumberOfDependents</td>
 						<td>@employee.CompensationPerPaycheckFormatted</td>
-						<td>@employee.AnnualBenefitsDiscountFormatted</td>
-						<td>@employee.BenefitsDiscountPercentage()%</td>
+						<td>@employee.BaseCostOfBenefitsFormatted()</td>
+						<td>@employee.BenefitsDiscountPercentage()% off</td>
+						<td>@employee.NumberOfDependents</td>
+						<td>@employee.BaseCostOfDependentBenefitsFormatted()</td>
+						<td>
+						@foreach (var summary in employee.BenefitsDiscountSummaryForDependents())
+						{
+							<p>@summary</p>
+						}
+						</td>
 						<td>@employee.BenefitsPerPaycheckFormatted</td>
 						<td>@employee.NetCostPerPaycheckFormatted</td>
+						<td>@employee.AnnualBenefitsDiscountFormatted</td>
 						<td>@employee.NetCostFormatted</td>
 					</tr>
 					}

@@ -47,7 +47,9 @@ namespace EmployeeBenefits.Data
 				new Dependent("Jack Jack"),
 				new Dependent("Velociraptor"),
 				new Dependent("BB-8"),
-				new Dependent("Aaron McDiscount")
+				new Dependent("Aaron McDiscount"),
+				new Dependent("Alfred the Butler"),
+				new Dependent("Anomander Rake")
 			};
 			foreach (Employee s in employees)
 			{
@@ -71,8 +73,18 @@ namespace EmployeeBenefits.Data
 				},
 				new EmployeeDependent
 				{
+					Employee = employees[0],
+					Dependent = dependents[5]
+				},
+				new EmployeeDependent
+				{
 					Employee = employees[2],
 					Dependent = dependents[3]
+				},
+				new EmployeeDependent
+				{
+					Employee = employees[2],
+					Dependent = dependents[4]
 				}
 			);
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EmployeeBenefits.Helpers;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,20 +22,15 @@ namespace EmployeeBenefits.Models
 		// Many to many relationship here just to handle the edge-case of working couples sharing the same dependent
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
 
+		[NotMapped]
+		public List<Dependent> ProccessedDependents = new List<Dependent>();
+
 		/// <summary>
 		/// Parameterless constructor for Model Binding
 		/// </summary>
 		public Employee()
 		{
 			DiscountHelper = new DiscountHelper();
-		}
-
-		/// <summary>
-		/// Convenience constructor
-		/// </summary>
-		public Employee(string name)
-		{
-			Name = name;
 		}
 
 		/// <summary>
@@ -58,23 +52,36 @@ namespace EmployeeBenefits.Models
 		[Required]
 		public decimal BaseAnnualCostOfBenefits { get; set; } = 1000;
 
+		public string BaseCostOfBenefitsFormatted() {
+			return CurrencyHelper.FormatCurrency(BaseAnnualCostOfBenefits / Constants.WEEKS_PER_YEAR);
+		}
+
+		/// <summary>
+		/// Gross total of standard dependent benefits, formatted in USD
+		/// </summary>
+		/// <returns></returns>
+		public string BaseCostOfDependentBenefitsFormatted()
+		{
+			return CurrencyHelper.FormatCurrency(ProccessedDependents.Sum(d => d.BaseAnnualCostOfBenefits) / Constants.WEEKS_PER_YEAR);
+		}
+
 		/// <summary>
 		/// Includes dependents
 		/// </summary>
 		public decimal AdjustedAnnualBenefits()
 		{
 			var total = DiscountHelper.ComputeDiscountForAPerson(this);
-			var dependents = EmployeeDependents.Select(d => d.Dependent).ToList();
-			foreach (var dependent in dependents)
-			{
-				dependent.ApplyDiscounts(DiscountHelper.Discounts);
-				total += dependent.AdjustedAnnualBenefits();
-			}
-			return total;
+			return total + ProccessedDependents.Sum(d => d.AdjustedAnnualBenefits());
 		}
 
 		public void ApplyDiscounts(List<Discount> discounts) {
 			DiscountHelper.Discounts = discounts;
+			var dependents = EmployeeDependents.Select(d => d.Dependent).ToList();
+			foreach (var dependent in dependents)
+			{
+				dependent.ApplyDiscounts(DiscountHelper.Discounts);
+				ProccessedDependents.Add(dependent);
+			}
 		}
 
 		/// <summary>
@@ -86,9 +93,16 @@ namespace EmployeeBenefits.Models
 			return DiscountHelper.ComputeDiscountPercentageForAPerson(this);
 		}
 
+		/// <summary>
+		/// Computes a human-readable summary of discounts for each dependent
+		/// </summary>
+		/// <returns>Returns a human-readable summary of discounts for each dependent</returns>
+		public List<string> BenefitsDiscountSummaryForDependents() {
+			return DiscountHelper.BenefitsDiscountSummaryForDependents(ProccessedDependents);
+		}
 
 		#region Computed Properties
-		
+
 
 		[NotMapped]
 		/// <summary>
