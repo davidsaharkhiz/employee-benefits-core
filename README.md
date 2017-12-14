@@ -5,7 +5,8 @@ I will address these as I get time, but master is stable and you guys can have a
 feature branches in the coming days even if you don't get a chance to review the final changes, because this was a fun project and I want to do some final work on the 
 following:
 
-1) I leaned pretty hard on computed properties, and while they are really handy for quick Linq calculations they don't play nice with EF. 
+1) I leaned pretty hard on computed properties, and while they are really handy for quick Linq calculations they don't play nice with EF and left the 
+models feeling a little heavy.
 2) There really wasn't much time for test coverage 
 3) I wanted to implement a handy multi-select many-to-many form for employees and dependents but ran out of 
 time. Not a huge deal for the purposes of this demo, as you can add dependents piecemeal, but in theory in the case of working families you get cases 
