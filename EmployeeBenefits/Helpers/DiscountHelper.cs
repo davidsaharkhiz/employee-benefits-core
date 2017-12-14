@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EmployeeBenefits.Models;
 using System;
+using System.Linq;
 
 namespace EmployeeBenefits.Helpers
 {
@@ -23,15 +24,8 @@ namespace EmployeeBenefits.Helpers
 		/// <param name="person">Takes a person to compute a discount for based on that person's criteria and the logic of the discount delegate</param>
 		/// <returns>the discount percentage for this person</returns>
 		public int ComputeDiscountPercentageForAPerson(IPerson person) {
-			var totalDiscount = 0;
-			foreach (var discount in Discounts)
-			{
-				if (discount.Active)
-				{
-					totalDiscount += discount.DiscountCalculation(person);
-				}
-			}
-			return totalDiscount;
+
+			return Discounts.Sum(d => d.DiscountCalculation(person));
 		}
 
 		/// <summary>
