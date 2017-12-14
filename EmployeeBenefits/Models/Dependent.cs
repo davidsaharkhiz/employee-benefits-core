@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EmployeeBenefits.Helpers;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,7 +19,16 @@ namespace EmployeeBenefits.Models
 		public string Name { get; set; }
 
 		[NotMapped]
-		public List<Discount> Discounts { get; set; } = new List<Discount>();
+		public DiscountHelper DiscountHelper { get; set; }
+
+		/// <summary>
+		/// Determine how much of a discount this person gets based on eligibility criteria
+		/// </summary>
+		/// <returns>The percentage discount availabile</returns>
+		public int BenefitsDiscountPercentage()
+		{
+			return DiscountHelper.ComputeDiscountPercentageForAPerson(this);
+		}
 
 		[Display(Name = "Associated Employee")]
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();

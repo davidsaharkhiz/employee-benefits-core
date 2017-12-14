@@ -18,6 +18,7 @@ namespace EmployeeBenefits.Controllers
 
 		public IActionResult Index()
         {
+			@ViewData["Title"] = "Home Page";
 			var viewModel = new HomeIndexViewModel
 			{
 				Employees = _context.EmployeesWithAllData

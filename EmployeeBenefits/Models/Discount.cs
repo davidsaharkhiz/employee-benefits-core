@@ -10,6 +10,7 @@ namespace EmployeeBenefits.Models
 		/// <summary>
 		/// Constant names for discounts
 		/// </summary>
+		[NotMapped]
 		public static class Names {
 			public const string BEGINS_WITH_LETTER_CASE_INSENSITIVE = "BEGINS_WITH_LETTER";
 		}

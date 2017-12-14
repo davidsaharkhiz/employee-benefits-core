@@ -56,8 +56,10 @@ namespace EmployeeBenefits.Data
 				var employees = Employees.Include(e => e.EmployeeDependents).ThenInclude(e => e.Dependent);
 				var discountsWithCalculations = DiscountsWithCalculations;
 				foreach (var employee in employees) {
-					employee.Discounts = discountsWithCalculations;
+					employee.DiscountHelper = new Helpers.DiscountHelper(discountsWithCalculations);
+					///but what about dependent needing a helper?!?!? #todo
 				}
+				
 				return employees;
 			}
 		}

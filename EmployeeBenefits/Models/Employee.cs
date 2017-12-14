@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EmployeeBenefits.Helpers;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace EmployeeBenefits.Models
 {
@@ -17,7 +18,7 @@ namespace EmployeeBenefits.Models
 		public string Name { get; set; }
 
 		[NotMapped]
-		public List<Discount> Discounts { get; set; } = new List<Discount>();
+		public DiscountHelper DiscountHelper { get; set; }
 
 		// Many to many relationship here just to handle the edge-case of working couples sharing the same dependent
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
@@ -76,18 +77,19 @@ namespace EmployeeBenefits.Models
 		}
 
 		/// <summary>
-		/// Determine how much of a discount this person gets based on eligibility criteria
+		/// Determine how much of a discount this person gets based on eligibility criteria and our dependents' eligibility criteria
 		/// </summary>
 		/// <returns>The percentage discount availabile</returns>
 		public int BenefitsDiscountPercentage()
 		{
-			var totalDiscount = 0;
-			foreach(var discount in Discounts) {
-				if(discount.Active) {
-					totalDiscount += discount.DiscountCalculation(this);
-				}
+
+			var dependents = EmployeeDependents.Select(d => d.Dependent).ToList();
+
+			foreach(var dependent in dependents) {
+				dependent.DiscountHelper = DiscountHelper;
 			}
-			return totalDiscount;
+
+			return DiscountHelper.ComputeDiscountPercentageForAPerson(this) + dependents.Sum(d => d.BenefitsDiscountPercentage());
 		}
 
 		/// <summary>
