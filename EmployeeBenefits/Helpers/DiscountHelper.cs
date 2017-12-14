@@ -11,7 +11,6 @@ namespace EmployeeBenefits.Helpers
 
 		public DiscountHelper()
 		{
-			
 		}
 
 		public DiscountHelper(List<Discount> discounts) {
@@ -19,13 +18,12 @@ namespace EmployeeBenefits.Helpers
 		}
 
 		/// <summary>
-		/// Leverages DI so we don't have to implement this for each person
+		/// Compute all discounts against a given person. NOTE: Discounts are additive not multiplicative so a 5% discount and a 10% discount results in a 15% discount not a 14.5% discount
 		/// </summary>
 		/// <param name="person">Takes a person to compute a discount for based on that person's criteria and the logic of the discount delegate</param>
-		/// <returns>the discount percentage for this person</returns>
+		/// <returns>the sum of the discount percentage for this person</returns>
 		public int ComputeDiscountPercentageForAPerson(IPerson person) {
-
-			return Discounts.Sum(d => d.DiscountCalculation(person));
+			return Discounts.Where(d => d.Active).Sum(d => d.DiscountCalculation(person));
 		}
 
 		/// <summary>
