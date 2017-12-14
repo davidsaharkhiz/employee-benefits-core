@@ -62,7 +62,10 @@ namespace EmployeeBenefits.Controllers
 			if (ModelState.IsValid)
 			{
 
-				var newDependent = _context.Add(new Dependent(dependentViewModel.Dependent.Name));
+				var newDependent = _context.Add(new Dependent
+				{
+					Name = dependentViewModel.Dependent.Name
+				});
 
 				_context.SaveChanges();
 

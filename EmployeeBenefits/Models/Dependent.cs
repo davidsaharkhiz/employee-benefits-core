@@ -19,7 +19,7 @@ namespace EmployeeBenefits.Models
 		public string Name { get; set; }
 
 		[NotMapped]
-		private DiscountHelper DiscountHelper { get; set; }
+		private IDiscountHelper DiscountHelper { get; set; }
 
 		/// <summary>
 		/// Annual deduction from an employee's paycheck in USD to cover the cost of for his or her dependent benefits. Right now this leans on a hard-coded default given the simple requirements
@@ -59,9 +59,9 @@ namespace EmployeeBenefits.Models
 		/// Our discount helper must be populated before all of our computed properties can return a value
 		/// </summary>
 		/// <param name="discounts">list of discounts available</param>
-		public void ApplyDiscounts(List<Discount> discounts)
+		public void ApplyDiscounts(IDiscountHelper discountHelper)
 		{
-			DiscountHelper.Discounts = discounts;
+			DiscountHelper = discountHelper;
 		}
 
 		

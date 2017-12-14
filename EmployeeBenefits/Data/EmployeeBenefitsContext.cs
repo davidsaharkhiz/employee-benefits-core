@@ -3,6 +3,7 @@ using EmployeeBenefits.Models;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using EmployeeBenefits.Helpers;
 
 namespace EmployeeBenefits.Data
 {
@@ -36,7 +37,7 @@ namespace EmployeeBenefits.Data
 				var employees = Employees.Include(e => e.EmployeeDependents).ThenInclude(e => e.Dependent);
 				var discountsWithCalculations = DiscountsWithCalculations;
 				foreach (var employee in employees) {
-					employee.ApplyDiscounts(discountsWithCalculations);
+					employee.ApplyDiscounts(new DiscountHelper(discountsWithCalculations));
 				}
 				return employees;
 			}

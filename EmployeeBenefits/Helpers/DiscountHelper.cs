@@ -4,7 +4,7 @@ using System;
 
 namespace EmployeeBenefits.Helpers
 {
-    public class DiscountHelper
+    public class DiscountHelper : IDiscountHelper
     {
 		public List<Discount> Discounts { get; set; } = new List<Discount>();
 

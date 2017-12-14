@@ -20,7 +20,8 @@ namespace EmployeeBenefits.Models
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
 
 		[NotMapped]
-		private DiscountHelper DiscountHelper { get; set; }
+		private IDiscountHelper DiscountHelper { get; set; }
+
 		[NotMapped]
 		public List<Dependent> ProccessedDependents = new List<Dependent>();
 		
@@ -58,7 +59,6 @@ namespace EmployeeBenefits.Models
 		/// <summary>
 		/// Gross total of standard dependent benefits, formatted in USD
 		/// </summary>
-		/// <returns></returns>
 		public string BaseCostOfDependentBenefitsFormatted()
 		{
 			return CurrencyHelper.FormatCurrency(ProccessedDependents.Sum(d => d.BaseAnnualCostOfBenefits) / Constants.WEEKS_PER_YEAR);
@@ -77,12 +77,12 @@ namespace EmployeeBenefits.Models
 		/// We need to supply our DiscountHelper with discounts from the database before all computed properties will work
 		/// </summary>
 		/// <param name="discounts"></param>
-		public void ApplyDiscounts(List<Discount> discounts) {
-			DiscountHelper.Discounts = discounts;
+		public void ApplyDiscounts(IDiscountHelper discountHelper) {
+			DiscountHelper = discountHelper;
 			var dependents = EmployeeDependents.Select(d => d.Dependent).ToList();
 			foreach (var dependent in dependents)
 			{
-				dependent.ApplyDiscounts(DiscountHelper.Discounts);
+				dependent.ApplyDiscounts(discountHelper);
 				ProccessedDependents.Add(dependent);
 			}
 		}

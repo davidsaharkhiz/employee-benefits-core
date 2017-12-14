@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using EmployeeBenefits.Helpers;
 namespace EmployeeBenefits.Models
 {
 	/// <summary>
@@ -12,9 +12,9 @@ namespace EmployeeBenefits.Models
 		decimal BaseAnnualCostOfBenefits { get; set; }
 
 		/// <summary>
-		/// Method to apply discount calculations against the person to drive calculations
+		/// Supply helper via IoC to drive property calculations at runtime
 		/// </summary>
-		void ApplyDiscounts(List<Discount> discounts);
+		void ApplyDiscounts(IDiscountHelper discounts);
 
 		/// <summary>
 		/// This method should compute the discount percentage for this person

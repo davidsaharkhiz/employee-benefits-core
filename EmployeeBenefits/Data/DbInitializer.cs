@@ -51,12 +51,12 @@ namespace EmployeeBenefits.Data
 
 			var dependents = new Dependent[]
 			{
-				new Dependent("Jack Jack"),
-				new Dependent("Velociraptor"),
-				new Dependent("BB-8"),
-				new Dependent("Aaron McDiscount"),
-				new Dependent("Alfred the Butler"),
-				new Dependent("Anomander Rake")
+				new Dependent { Name = "Jack Jack" },
+				new Dependent { Name = "Velociraptor" },
+				new Dependent { Name = "BB-8" },
+				new Dependent { Name = "Aaron McDiscount" },
+				new Dependent { Name = "Alfred the Butler" },
+				new Dependent { Name = "Anomander Rake" }
 			};
 			foreach (Employee s in employees)
 			{
