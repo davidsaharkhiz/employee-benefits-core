@@ -1,5 +1,4 @@
 ﻿using EmployeeBenefits.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace EmployeeBenefits.Data
@@ -9,6 +8,12 @@ namespace EmployeeBenefits.Data
 		public static void Initialize(EmployeeBenefitsContext context)
 		{
 			context.Database.EnsureCreated();
+
+			// Quick demo hack to seed the test DB
+			if (context.Employees.Any())
+			{
+				return;   // DB has been seeded
+			}
 
 			var discount = new Discount
 			{
@@ -20,17 +25,17 @@ namespace EmployeeBenefits.Data
 			context.Discounts.Add(discount);
 			context.SaveChanges();
 
-			// Quick demo hack to seed the test DB
-			if (context.Employees.Any())
-			{
-				return;   // DB has been seeded
-			}
-
 			var employees = new Employee[]
 			{
-				new Employee("April"),
-				new Employee("Barry"),
-				new Employee("Charlie")
+				new Employee {
+					Name = "Artanis"
+				},
+				new Employee {
+					Name = "Baneling"
+				},
+				new Employee {
+					Name = "Zeratul"
+				},
 			};
 			foreach (Employee employee in employees)
 			{
@@ -40,8 +45,9 @@ namespace EmployeeBenefits.Data
 			var dependents = new Dependent[]
 			{
 				new Dependent("Jack Jack"),
-				new Dependent("Dinosaur Junior"),
-				new Dependent("BB-8")
+				new Dependent("Velociraptor"),
+				new Dependent("BB-8"),
+				new Dependent("Aaron McDiscount")
 			};
 			foreach (Employee s in employees)
 			{
@@ -62,6 +68,11 @@ namespace EmployeeBenefits.Data
 				{
 					Employee = employees[0],
 					Dependent = dependents[2]
+				},
+				new EmployeeDependent
+				{
+					Employee = employees[2],
+					Dependent = dependents[3]
 				}
 			);
 

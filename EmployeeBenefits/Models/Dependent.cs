@@ -19,7 +19,7 @@ namespace EmployeeBenefits.Models
 		public string Name { get; set; }
 
 		[NotMapped]
-		public DiscountHelper DiscountHelper { get; set; }
+		private DiscountHelper DiscountHelper { get; set; }
 
 		/// <summary>
 		/// Determine how much of a discount this person gets based on eligibility criteria
@@ -34,7 +34,7 @@ namespace EmployeeBenefits.Models
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
 
 		public Dependent() {
-
+			DiscountHelper = new DiscountHelper();
 		}
 
 		/// <summary>
@@ -44,6 +44,11 @@ namespace EmployeeBenefits.Models
 		public Dependent(string name)
 		{
 			Name = name;
+		}
+
+		public void ApplyDiscounts(List<Discount> discounts)
+		{
+			DiscountHelper.Discounts = discounts;
 		}
 
 		/// <summary>

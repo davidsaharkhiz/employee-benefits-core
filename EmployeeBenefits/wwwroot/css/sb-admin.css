@@ -44,6 +44,11 @@ body.fixed-nav {
 .employee-benefits-button-row button {
   margin: 2px 12px; }
 
+.employee-benefits-homepage-icon-row {
+  font-size-adjust: 0.8; }
+  .employee-benefits-homepage-icon-row .pull-right {
+    margin-right: 40px; }
+
 .smaller {
   font-size: 0.7rem; }
 

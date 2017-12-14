@@ -18,7 +18,7 @@ namespace EmployeeBenefits.Models
 		public string Name { get; set; }
 
 		[NotMapped]
-		public DiscountHelper DiscountHelper { get; set; }
+		private DiscountHelper DiscountHelper { get; set; }
 
 		// Many to many relationship here just to handle the edge-case of working couples sharing the same dependent
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
@@ -28,6 +28,7 @@ namespace EmployeeBenefits.Models
 		/// </summary>
 		public Employee()
 		{
+			DiscountHelper = new DiscountHelper();
 		}
 
 		/// <summary>
@@ -65,15 +66,10 @@ namespace EmployeeBenefits.Models
 			return BaseAnnualCostOfBenefits + (500 * NumberOfDependents); //todo: replace this with a calculation from the dependents by looping over them
 		}
 
-		/// <summary>
-		/// Computes a benefits deduction on a per-paycheck basis in USD
-		/// </summary>
-		private decimal BenefitsPerPaycheck
-		{
-			get
-			{
-				return AnnualBenefitsDiscount / Constants.WEEKS_PER_YEAR;
-			}
+		#endregion
+
+		public void ApplyDiscounts(List<Discount> discounts) {
+			DiscountHelper.Discounts = discounts;
 		}
 
 		/// <summary>
@@ -82,20 +78,22 @@ namespace EmployeeBenefits.Models
 		/// <returns>The percentage discount availabile</returns>
 		public int BenefitsDiscountPercentage()
 		{
-
 			var dependents = EmployeeDependents.Select(d => d.Dependent).ToList();
-
-			foreach(var dependent in dependents) {
-				dependent.DiscountHelper = DiscountHelper;
+			foreach (var dependent in dependents)
+			{
+				dependent.ApplyDiscounts(DiscountHelper.Discounts);
 			}
-
-			return DiscountHelper.ComputeDiscountPercentageForAPerson(this) + dependents.Sum(d => d.BenefitsDiscountPercentage());
+			var dependentTotal = dependents.Any() ? dependents.Sum(d => d.BenefitsDiscountPercentage()) : 0;
+			return DiscountHelper.ComputeDiscountPercentageForAPerson(this) + dependentTotal;
 		}
+
+		#region Computed Properties
 
 		/// <summary>
 		/// Some employees are eligible for a discount on the cost of their benefits.  This returns the discount available to this employee in USD.
 		/// </summary>
-		private decimal AnnualBenefitsDiscount
+		[NotMapped]
+		public decimal AnnualBenefitsDiscount
 		{
 			get
 			{
@@ -103,9 +101,17 @@ namespace EmployeeBenefits.Models
 			}
 		}
 
-		#endregion
-
-		#region Computed Properties
+		[NotMapped]
+		/// <summary>
+		/// Computes a benefits deduction on a per-paycheck basis in USD
+		/// </summary>
+		public decimal BenefitsPerPaycheck
+		{
+			get
+			{
+				return AnnualBenefitsDiscount / Constants.WEEKS_PER_YEAR;
+			}
+		}
 
 		/// <summary>
 		/// Returns the number of Dependents

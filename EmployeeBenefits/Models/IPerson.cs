@@ -1,6 +1,4 @@
-﻿using EmployeeBenefits.Helpers;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 
 namespace EmployeeBenefits.Models
 {
@@ -12,8 +10,10 @@ namespace EmployeeBenefits.Models
 		int ID { get; set; }
 		string Name { get; set; }
 
-		[NotMapped]
-		DiscountHelper DiscountHelper { get; set; }
+		/// <summary>
+		/// Method to apply discount calculations against the person 
+		/// </summary>
+		void ApplyDiscounts(List<Discount> discounts);
 
 		/// <summary>
 		/// This method should compute the discount percentage for this person

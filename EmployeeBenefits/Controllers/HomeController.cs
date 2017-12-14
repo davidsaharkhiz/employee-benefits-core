@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EmployeeBenefits.Data;
 using EmployeeBenefits.ViewModels;
+using System.Linq;
 
 namespace EmployeeBenefits.Controllers
 {
@@ -19,9 +20,15 @@ namespace EmployeeBenefits.Controllers
 		public IActionResult Index()
         {
 			@ViewData["Title"] = "Home Page";
+			var employees = _context.EmployeesWithAllData;
+			var dependents = _context.Dependents;
 			var viewModel = new HomeIndexViewModel
 			{
-				Employees = _context.EmployeesWithAllData
+				Employees = employees,
+				NumberOfEmployees = employees.Count(),
+				NumberOfDependents = dependents.Count(),
+				GrossEmployeeCompensation = Helpers.CurrencyHelper.FormatCurrency(employees.Sum(e => e.CompensationPerPaycheck * Helpers.Constants.WEEKS_PER_YEAR)),
+				TotalEmployeeBenefits = Helpers.CurrencyHelper.FormatCurrency(employees.Sum(e => e.AnnualBenefitsDiscount))
 			};
 			return View(viewModel);
         }

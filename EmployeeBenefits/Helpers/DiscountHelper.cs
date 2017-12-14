@@ -5,10 +5,15 @@ namespace EmployeeBenefits.Helpers
 {
     public class DiscountHelper
     {
-		private List<Discount> _discounts { get; set; }
+		public List<Discount> Discounts { get; set; } = new List<Discount>();
 
-		public DiscountHelper(List<Discount> Discounts) {
-			_discounts = Discounts;
+		public DiscountHelper()
+		{
+			
+		}
+
+		public DiscountHelper(List<Discount> discounts) {
+			Discounts = discounts;
 		}
 
 		/// <summary>
@@ -18,7 +23,7 @@ namespace EmployeeBenefits.Helpers
 		/// <returns>the discount percentage for this person</returns>
 		public int ComputeDiscountPercentageForAPerson(IPerson person) {
 			var totalDiscount = 0;
-			foreach (var discount in _discounts)
+			foreach (var discount in Discounts)
 			{
 				if (discount.Active)
 				{
