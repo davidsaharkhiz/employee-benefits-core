@@ -13,13 +13,23 @@ namespace EmployeeBenefits.Models
 	{
 
 		public int ID { get; set; }
-		[StringLength(60, MinimumLength = 2)]
 
+		[StringLength(60, MinimumLength = 2)]
 		[Required]
 		public string Name { get; set; }
 
 		[NotMapped]
 		private DiscountHelper DiscountHelper { get; set; }
+
+		/// <summary>
+		/// Annual deduction from an employee's paycheck in USD to cover the cost of for his or her dependent benefits. Right now this leans on a hard-coded default given the simple requirements
+		/// but in a real environment this would undoubtedly change in the future....I've added it here in anticipation of eventual configuration of these values.
+		/// </summary>
+		[Range(1, 10000)]
+		[DataType(DataType.Currency)]
+		[Display(Name = "Annual Cost of Benefits")]
+		[Required]
+		public decimal BaseAnnualCostOfBenefits { get; set; } = 500;
 
 		/// <summary>
 		/// Determine how much of a discount this person gets based on eligibility criteria
@@ -46,28 +56,15 @@ namespace EmployeeBenefits.Models
 		}
 
 		/// <summary>
-		/// Convenience constructor
+		/// Our discount helper must be populated before all of our computed properties can return a value
 		/// </summary>
-		/// <param name="name">Name of the dependent</param>
-		public Dependent(string name)
-		{
-			Name = name;
-		}
-
+		/// <param name="discounts">list of discounts available</param>
 		public void ApplyDiscounts(List<Discount> discounts)
 		{
 			DiscountHelper.Discounts = discounts;
 		}
 
-		/// <summary>
-		/// Annual deduction from an employee's paycheck in USD to cover the cost of for his or her dependent benefits. Right now this leans on a hard-coded default given the simple requirements
-		/// but in a real environment this would undoubtedly change in the future....I've added it here in anticipation of eventual configuration of these values.
-		/// </summary>
-		[Range(1, 10000)]
-		[DataType(DataType.Currency)]
-		[Display(Name = "Annual Cost of Benefits")]
-		[Required]
-		public decimal BaseAnnualCostOfBenefits { get; set; } = 500;
+		
 
 	}
 }
