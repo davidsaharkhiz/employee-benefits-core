@@ -11,8 +11,8 @@ namespace EmployeeBenefits.Models
     {
 
 		public int ID { get; set; }
-		[StringLength(60, MinimumLength = 2)]
 
+		[StringLength(60, MinimumLength = 2)]
 		[Required]
 		public string Name { get; set; }
 
@@ -100,7 +100,7 @@ namespace EmployeeBenefits.Models
 		/// Computes a human-readable summary of discounts for each dependent
 		/// </summary>
 		/// <returns>Returns a human-readable summary of discounts for each dependent</returns>
-		public ICollection<string> BenefitsDiscountSummary() {
+		public List<string> BenefitsDiscountSummary() {
 
 			var summaries = new List<string>();
 			foreach (var person in ProccessedDependents)
