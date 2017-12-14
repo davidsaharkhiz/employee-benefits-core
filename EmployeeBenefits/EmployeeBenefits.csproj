@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="C:\Users\David\source\repos\EmployeeBenefits\employee-benefits-core\.gitignore" Link=".gitignore" />
     <None Include="wwwroot\images\banner1.svg" />
     <None Include="wwwroot\images\banner2.svg" />
     <None Include="wwwroot\images\banner3.svg" />
