@@ -28,7 +28,7 @@ namespace EmployeeBenefits.Controllers
 				NumberOfEmployees = employees.Count(),
 				NumberOfDependents = dependents.Count(),
 				GrossEmployeeCompensation = Helpers.CurrencyHelper.FormatCurrency(employees.Sum(e => e.CompensationPerPaycheck * Helpers.Constants.WEEKS_PER_YEAR)),
-				TotalEmployeeBenefits = Helpers.CurrencyHelper.FormatCurrency(employees.Sum(e => e.AnnualBenefitsDiscount))
+				TotalEmployeeBenefits = Helpers.CurrencyHelper.FormatCurrency(employees.Sum(e => e.AdjustedAnnualBenefits()))
 			};
 			return View(viewModel);
         }

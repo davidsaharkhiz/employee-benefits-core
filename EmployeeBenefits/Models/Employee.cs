@@ -58,48 +58,37 @@ namespace EmployeeBenefits.Models
 		[Required]
 		public decimal BaseAnnualCostOfBenefits { get; set; } = 1000;
 
-		#region Private Properties
-
-		/// Benefits before any discount is added
-		private decimal StandardAnnualBenefits()
+		/// <summary>
+		/// Includes dependents
+		/// </summary>
+		public decimal AdjustedAnnualBenefits()
 		{
-			return BaseAnnualCostOfBenefits + (500 * NumberOfDependents); //todo: replace this with a calculation from the dependents by looping over them
+			var total = DiscountHelper.ComputeDiscountForAPerson(this);
+			var dependents = EmployeeDependents.Select(d => d.Dependent).ToList();
+			foreach (var dependent in dependents)
+			{
+				dependent.ApplyDiscounts(DiscountHelper.Discounts);
+				total += dependent.AdjustedAnnualBenefits();
+			}
+			return total;
 		}
-
-		#endregion
 
 		public void ApplyDiscounts(List<Discount> discounts) {
 			DiscountHelper.Discounts = discounts;
 		}
 
 		/// <summary>
-		/// Determine how much of a discount this person gets based on eligibility criteria and our dependents' eligibility criteria
+		/// Determine how much of a discount this person gets based on eligibility criteria
 		/// </summary>
 		/// <returns>The percentage discount availabile</returns>
 		public int BenefitsDiscountPercentage()
 		{
-			var dependents = EmployeeDependents.Select(d => d.Dependent).ToList();
-			foreach (var dependent in dependents)
-			{
-				dependent.ApplyDiscounts(DiscountHelper.Discounts);
-			}
-			var dependentTotal = dependents.Any() ? dependents.Sum(d => d.BenefitsDiscountPercentage()) : 0;
-			return DiscountHelper.ComputeDiscountPercentageForAPerson(this) + dependentTotal;
+			return DiscountHelper.ComputeDiscountPercentageForAPerson(this);
 		}
+
 
 		#region Computed Properties
-
-		/// <summary>
-		/// Some employees are eligible for a discount on the cost of their benefits.  This returns the discount available to this employee in USD.
-		/// </summary>
-		[NotMapped]
-		public decimal AnnualBenefitsDiscount
-		{
-			get
-			{
-				return Decimal.Divide((StandardAnnualBenefits() * (100 - BenefitsDiscountPercentage())), 100);
-			}
-		}
+		
 
 		[NotMapped]
 		/// <summary>
@@ -109,7 +98,7 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return AnnualBenefitsDiscount / Constants.WEEKS_PER_YEAR;
+				return AdjustedAnnualBenefits() / Constants.WEEKS_PER_YEAR;
 			}
 		}
 
@@ -158,7 +147,7 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return CurrencyHelper.FormatCurrency((CompensationPerPaycheck * Constants.WEEKS_PER_YEAR) - AnnualBenefitsDiscount);
+				return CurrencyHelper.FormatCurrency((CompensationPerPaycheck * Constants.WEEKS_PER_YEAR) - AdjustedAnnualBenefits());
 			}
 		}
 
@@ -171,7 +160,7 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return CurrencyHelper.FormatCurrency(AnnualBenefitsDiscount);
+				return CurrencyHelper.FormatCurrency(AdjustedAnnualBenefits());
 			}
 		}
 		/// <summary>

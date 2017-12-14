@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using EmployeeBenefits.Models;
+using System;
 
 namespace EmployeeBenefits.Helpers
 {
@@ -31,6 +32,10 @@ namespace EmployeeBenefits.Helpers
 				}
 			}
 			return totalDiscount;
+		}
+
+		public decimal ComputeDiscountForAPerson(IPerson person) {
+			return Decimal.Divide((person.BaseAnnualCostOfBenefits * (100 - person.BenefitsDiscountPercentage())), 100);
 		}
 
 	}

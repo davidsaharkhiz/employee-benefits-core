@@ -9,6 +9,7 @@ namespace EmployeeBenefits.Models
 	{
 		int ID { get; set; }
 		string Name { get; set; }
+		decimal BaseAnnualCostOfBenefits { get; set; }
 
 		/// <summary>
 		/// Method to apply discount calculations against the person 
@@ -20,6 +21,13 @@ namespace EmployeeBenefits.Models
 		/// </summary>
 		/// <returns>the discount percentage for this person</returns>
 		int BenefitsDiscountPercentage();
+
+		/// <summary>
+		/// Calculates the adjusted cost of benefits based on a discount
+		/// </summary>
+		/// <returns></returns>
+		decimal AdjustedAnnualBenefits();
+
 
 	}
 

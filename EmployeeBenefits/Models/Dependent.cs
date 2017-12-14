@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace EmployeeBenefits.Models
 {
@@ -28,6 +29,14 @@ namespace EmployeeBenefits.Models
 		public int BenefitsDiscountPercentage()
 		{
 			return DiscountHelper.ComputeDiscountPercentageForAPerson(this);
+		}
+
+		/// <summary>
+		/// What are my benefit costs when adjusted for my discounts?
+		/// </summary>
+		public decimal AdjustedAnnualBenefits()
+		{
+			return DiscountHelper.ComputeDiscountForAPerson(this);
 		}
 
 		[Display(Name = "Associated Employee")]
@@ -59,7 +68,7 @@ namespace EmployeeBenefits.Models
 		[DataType(DataType.Currency)]
 		[Display(Name = "Annual Cost of Benefits")]
 		[Required]
-		public decimal BaseAnnualCostOfBenefits { get; set; } = 1000;
+		public decimal BaseAnnualCostOfBenefits { get; set; } = 500;
 
 	}
 }
