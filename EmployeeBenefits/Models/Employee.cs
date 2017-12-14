@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EmployeeBenefits.Helpers;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmployeeBenefits.Models
 {
@@ -11,9 +12,12 @@ namespace EmployeeBenefits.Models
 
 		public int ID { get; set; }
 		[StringLength(60, MinimumLength = 2)]
+
 		[Required]
 		public string Name { get; set; }
-		private List<Discount> Discounts { get; set; } = new List<Discount>();
+
+		[NotMapped]
+		public List<Discount> Discounts { get; set; } = new List<Discount>();
 
 		// Many to many relationship here just to handle the edge-case of working couples sharing the same dependent
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
@@ -23,13 +27,11 @@ namespace EmployeeBenefits.Models
 		/// </summary>
 		public Employee()
 		{
-			var testDiscount = new Discount();
 		}
 
 		/// <summary>
 		/// Convenience constructor
 		/// </summary>
-		/// <param name="name">Name of the employee</param>
 		public Employee(string name)
 		{
 			Name = name;
@@ -77,7 +79,7 @@ namespace EmployeeBenefits.Models
 		/// Determine how much of a discount this person gets based on eligibility criteria
 		/// </summary>
 		/// <returns>The percentage discount availabile</returns>
-		private int DetermineDiscountPercentage()
+		public int BenefitsDiscountPercentage()
 		{
 			var totalDiscount = 0;
 			foreach(var discount in Discounts) {
@@ -95,7 +97,7 @@ namespace EmployeeBenefits.Models
 		{
 			get
 			{
-				return Decimal.Divide((StandardAnnualBenefits() * (100 - BenefitsDiscountPercentage)), 100);
+				return Decimal.Divide((StandardAnnualBenefits() * (100 - BenefitsDiscountPercentage())), 100);
 			}
 		}
 
@@ -107,7 +109,7 @@ namespace EmployeeBenefits.Models
 		/// Returns the number of Dependents
 		/// </summary>
 		[Display(Name = "Number of Dependents")]
-		[Required]
+		[NotMapped]
 		public int NumberOfDependents
 		{
 			get
@@ -116,34 +118,21 @@ namespace EmployeeBenefits.Models
 			}
 		}
 
-		
-
-		/// <summary>
-		/// Some employees are eligible for a discount on the cost of their benefits. This returns the percentage available to this employee.
-		/// </summary>
-		public int BenefitsDiscountPercentage
-		{
-			get
-			{
-				
-				return DetermineDiscountPercentage();
-			}
-		}
-
-		
 		/// <summary>
 		/// Returns the cost of employee and dependent benefits for a pay period, formatted in USD
 		/// </summary>
+		[NotMapped]
 		public string BenefitsPerPaycheckFormatted
 		{
 			get { return CurrencyHelper.FormatCurrency(BenefitsPerPaycheck); }
 		}
-		
+
 
 		/// <summary>
 		/// This computes and returns the net cost to the employer for this employee on a per-paycheck basis. The cost is computed using the employee compensation, benefits, benefits discount, and his or her dependents.
 		/// </summary>
 		/// <returns>A formatted string in USD</returns>
+		[NotMapped]
 		public string NetCostPerPaycheckFormatted
 		{
 			get
@@ -156,6 +145,7 @@ namespace EmployeeBenefits.Models
 		/// This computes and returns the net cost to the employer for this employee on a per-paycheck basis. The cost is computed using the employee compensation, benefits, benefits discount, and his or her dependents.
 		/// </summary>
 		/// <returns>A formatted string in USD</returns>
+		[NotMapped]
 		public string NetCostFormatted
 		{
 			get
@@ -168,6 +158,7 @@ namespace EmployeeBenefits.Models
 		/// Some employees are eligible for a discount on the cost of their benefits.  This returns the discount available to this employee in USD.
 		/// </summary>
 		/// <returns>A formatted string in USD</returns>
+		[NotMapped]
 		public string AnnualBenefitsDiscountFormatted
 		{
 			get
@@ -179,6 +170,7 @@ namespace EmployeeBenefits.Models
 		/// How much does this employee cost to the company per pay period
 		/// </summary>
 		/// <returns>A formatted string in USD</returns>
+		[NotMapped] 
 		public string CompensationPerPaycheckFormatted
 		{
 			get

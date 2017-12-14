@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmployeeBenefits.Models
 {
@@ -10,7 +11,8 @@ namespace EmployeeBenefits.Models
 		int ID { get; set; }
 		string Name { get; set; }
 
-		//List<Discount> Discounts { get; set; }
-	}
+		[NotMapped]
+		List<Discount> Discounts { get; set; }
+}
 
 }

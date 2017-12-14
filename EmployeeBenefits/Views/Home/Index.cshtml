@@ -1,5 +1,5 @@
 ﻿@model EmployeeBenefits.ViewModels.HomeIndexViewModel
-
+@ViewData["Title"] = "Home Page";
 <!-- Icon Cards-->
 <div class="row">
 	<div class="col-xl-3 col-sm-6 mb-3">
@@ -122,7 +122,7 @@
 						<td>@employee.NumberOfDependents</td>
 						<td>@employee.CompensationPerPaycheckFormatted</td>
 						<td>@employee.AnnualBenefitsDiscountFormatted</td>
-						<td>@employee.BenefitsDiscountPercentage%</td>
+						<td>@employee.BenefitsDiscountPercentage()%</td>
 						<td>@employee.BenefitsPerPaycheckFormatted</td>
 						<td>@employee.NetCostPerPaycheckFormatted</td>
 						<td>@employee.NetCostFormatted</td>

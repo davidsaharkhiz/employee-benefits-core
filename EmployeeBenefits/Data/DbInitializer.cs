@@ -1,4 +1,5 @@
 ﻿using EmployeeBenefits.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EmployeeBenefits.Data
@@ -8,6 +9,16 @@ namespace EmployeeBenefits.Data
 		public static void Initialize(EmployeeBenefitsContext context)
 		{
 			context.Database.EnsureCreated();
+
+			var discount = new Discount
+			{
+				Active = true,
+				Amount = 10,
+				Name = Discount.Names.BEGINS_WITH_LETTER_CASE_INSENSITIVE,
+				OptionalOperand = "A"
+			};
+			context.Discounts.Add(discount);
+			context.SaveChanges();
 
 			// Quick demo hack to seed the test DB
 			if (context.Employees.Any())
@@ -21,9 +32,9 @@ namespace EmployeeBenefits.Data
 				new Employee("Barry"),
 				new Employee("Charlie")
 			};
-			foreach (Employee s in employees)
+			foreach (Employee employee in employees)
 			{
-				context.Employees.Add(s);
+				context.Employees.Add(employee);
 			}
 
 			var dependents = new Dependent[]
@@ -56,12 +67,7 @@ namespace EmployeeBenefits.Data
 
 			context.SaveChanges();
 
-			var testDiscount = new Discount();
-			testDiscount.Active = true;
-			testDiscount.Name = Discount.Names.BEGINS_WITH_LETTER_CASE_INSENSITIVE;
-			testDiscount.OptionalOperand = "A";
-			context.Discounts.Add(testDiscount);
-			context.SaveChanges();
+			
 
 
 		}

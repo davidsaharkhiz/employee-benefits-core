@@ -49,11 +49,16 @@ namespace EmployeeBenefits.Data
 		}
 
 		/// <summary>
-		/// Convenience method to automatically fetch all associated records
+		/// Convenience method to automatically fetch all associated records and apply all discounts
 		/// </summary>
-		public IQueryable<Employee> EmployeesWithDependents { 
+		public IQueryable<Employee> EmployeesWithAllData { 
 			get {
-				return Employees.Include(e => e.EmployeeDependents).ThenInclude(e => e.Dependent);
+				var employees = Employees.Include(e => e.EmployeeDependents).ThenInclude(e => e.Dependent);
+				var discountsWithCalculations = DiscountsWithCalculations;
+				foreach (var employee in employees) {
+					employee.Discounts = discountsWithCalculations;
+				}
+				return employees;
 			}
 		}
 

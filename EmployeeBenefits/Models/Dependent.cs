@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmployeeBenefits.Models
 {
@@ -12,9 +13,12 @@ namespace EmployeeBenefits.Models
 
 		public int ID { get; set; }
 		[StringLength(60, MinimumLength = 2)]
+
 		[Required]
 		public string Name { get; set; }
-		//public List<Discount> Discounts { get; set; }
+
+		[NotMapped]
+		public List<Discount> Discounts { get; set; } = new List<Discount>();
 
 		[Display(Name = "Associated Employee")]
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
