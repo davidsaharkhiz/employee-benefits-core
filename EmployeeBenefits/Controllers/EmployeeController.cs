@@ -5,14 +5,9 @@ using EmployeeBenefits.Data;
 
 namespace EmployeeBenefits.Controllers
 {
-	public class EmployeeController : Controller
+	public class EmployeeController : BaseController
 	{
-		//todo: consider moving this to a BaseController if you get time
-		private readonly EmployeeBenefitsContext _context;
-
-		// Inject our datacontext
-		public EmployeeController(EmployeeBenefitsContext context)
-		{
+		public EmployeeController(EmployeeBenefitsContext context) : base(context) {
 			_context = context;
 		}
 

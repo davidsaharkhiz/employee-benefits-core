@@ -5,15 +5,10 @@ using System.Linq;
 
 namespace EmployeeBenefits.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
 
-		//todo: consider moving this to a BaseController if you get time
-		private readonly EmployeeBenefitsContext _context;
-
-		// Inject our datacontext
-		public HomeController(EmployeeBenefitsContext context)
-		{
+		public HomeController(EmployeeBenefitsContext context) : base(context) {
 			_context = context;
 		}
 

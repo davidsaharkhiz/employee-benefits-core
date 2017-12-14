@@ -16,23 +16,14 @@ namespace EmployeeBenefits.Models
 		[Required]
 		public string Name { get; set; }
 
-		[NotMapped]
-		private DiscountHelper DiscountHelper { get; set; }
-
 		// Many to many relationship here just to handle the edge-case of working couples sharing the same dependent
 		public ICollection<EmployeeDependent> EmployeeDependents { get; } = new List<EmployeeDependent>();
 
 		[NotMapped]
+		private DiscountHelper DiscountHelper { get; set; }
+		[NotMapped]
 		public List<Dependent> ProccessedDependents = new List<Dependent>();
-
-		/// <summary>
-		/// Parameterless constructor for Model Binding
-		/// </summary>
-		public Employee()
-		{
-			DiscountHelper = new DiscountHelper();
-		}
-
+		
 		/// <summary>
 		/// How much the employee is compensated each week in USD. This is gross compensations before any calculations are applied.
 		/// </summary>
@@ -51,6 +42,14 @@ namespace EmployeeBenefits.Models
 		[Display(Name = "Annual Cost of Benefits")]
 		[Required]
 		public decimal BaseAnnualCostOfBenefits { get; set; } = 1000;
+
+		/// <summary>
+		/// Parameterless constructor for Model Binding
+		/// </summary>
+		public Employee()
+		{
+			DiscountHelper = new DiscountHelper();
+		}
 
 		public string BaseCostOfBenefitsFormatted() {
 			return CurrencyHelper.FormatCurrency(BaseAnnualCostOfBenefits / Constants.WEEKS_PER_YEAR);
@@ -74,6 +73,10 @@ namespace EmployeeBenefits.Models
 			return total + ProccessedDependents.Sum(d => d.AdjustedAnnualBenefits());
 		}
 
+		/// <summary>
+		/// We need to supply our DiscountHelper with discounts from the database before all computed properties will work
+		/// </summary>
+		/// <param name="discounts"></param>
 		public void ApplyDiscounts(List<Discount> discounts) {
 			DiscountHelper.Discounts = discounts;
 			var dependents = EmployeeDependents.Select(d => d.Dependent).ToList();
@@ -101,8 +104,7 @@ namespace EmployeeBenefits.Models
 			return DiscountHelper.BenefitsDiscountSummaryForDependents(ProccessedDependents);
 		}
 
-		#region Computed Properties
-
+		#region Computed Properties (I normally avoid these when working with EF because of obvious pitfalls, but they were convenient for this little demo.)
 
 		[NotMapped]
 		/// <summary>

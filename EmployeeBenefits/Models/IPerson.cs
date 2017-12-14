@@ -12,7 +12,7 @@ namespace EmployeeBenefits.Models
 		decimal BaseAnnualCostOfBenefits { get; set; }
 
 		/// <summary>
-		/// Method to apply discount calculations against the person 
+		/// Method to apply discount calculations against the person to drive calculations
 		/// </summary>
 		void ApplyDiscounts(List<Discount> discounts);
 

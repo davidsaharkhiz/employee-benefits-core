@@ -28,15 +28,22 @@ namespace EmployeeBenefits.Data
 			var employees = new Employee[]
 			{
 				new Employee {
-					Name = "Artanis"
+					Name = "Artanis Jones"
 				},
 				new Employee {
-					Name = "Baneling"
+					Name = "Billy Blazko"
 				},
 				new Employee {
 					Name = "Zeratul"
 				},
+				new Employee {
+					Name = "Jeff Bezos"
+				},
+				new Employee {
+					Name = "Yosemite Sam"
+				},
 			};
+
 			foreach (Employee employee in employees)
 			{
 				context.Employees.Add(employee);

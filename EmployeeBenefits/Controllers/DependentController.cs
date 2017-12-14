@@ -4,19 +4,14 @@ using System.Threading.Tasks;
 using EmployeeBenefits.Data;
 using EmployeeBenefits.ViewModels;
 using System.Linq;
-using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EmployeeBenefits.Controllers
 {
-	public class DependentController : Controller
+	public class DependentController : BaseController
 	{
-		//todo: consider moving this to a BaseController if you get time
-		private readonly EmployeeBenefitsContext _context;
-
-		// Inject our datacontext
-		public DependentController(EmployeeBenefitsContext context)
-		{
+		
+		public DependentController(EmployeeBenefitsContext context) : base(context) {
 			_context = context;
 		}
 
@@ -30,9 +25,6 @@ namespace EmployeeBenefits.Controllers
 				if (matchingRecord != null)
 				{
 					matchingRecord.Selected = true;
-				}
-				else {
-					//todo: log here but continue
 				}
 			}
 			return new DependentInputViewModel
@@ -51,7 +43,6 @@ namespace EmployeeBenefits.Controllers
 		{
 			ViewData["Title"] = "New Dependent Input";
 			return View(PrepareViewModel(id));
-
 		}
 		
 		/// <summary>
@@ -64,12 +55,9 @@ namespace EmployeeBenefits.Controllers
 		{
 			ViewData["Title"] = "New Dependent Input";
 
-			//todo: move this to custom validation to add to the checks for isvalid
-
 			if(!_context.Employees.Any(e => e.ID == dependentViewModel.SelectedEmployeeId)) {
-				throw new ArgumentException("No such employee found. Input has been spoofed or data is corrupt.");
+				ModelState.AddModelError("SelectedEmployeeId", "No such employee found. Input has been spoofed or data is corrupt.");
 			}
-			
 
 			if (ModelState.IsValid)
 			{
