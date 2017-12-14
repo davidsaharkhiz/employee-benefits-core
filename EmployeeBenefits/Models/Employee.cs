@@ -69,7 +69,7 @@ namespace EmployeeBenefits.Models
 		/// </summary>
 		public decimal AdjustedAnnualBenefits()
 		{
-			var total = DiscountHelper.ComputeDiscountForAPerson(this);
+			var total = DiscountHelper.ComputeAdjustedBenefits(this);
 			return total + ProccessedDependents.Sum(d => d.AdjustedAnnualBenefits());
 		}
 
@@ -93,7 +93,7 @@ namespace EmployeeBenefits.Models
 		/// <returns>The percentage discount availabile</returns>
 		public int BenefitsDiscountPercentage()
 		{
-			return DiscountHelper.ComputeDiscountPercentageForAPerson(this);
+			return DiscountHelper.ComputeDiscountPercentage(this);
 		}
 
 		/// <summary>

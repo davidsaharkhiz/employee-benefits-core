@@ -37,7 +37,7 @@ namespace EmployeeBenefits.Models
 		/// <returns>The percentage discount availabile</returns>
 		public int BenefitsDiscountPercentage()
 		{
-			return DiscountHelper.ComputeDiscountPercentageForAPerson(this);
+			return DiscountHelper.ComputeDiscountPercentage(this);
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace EmployeeBenefits.Models
 		/// </summary>
 		public decimal AdjustedAnnualBenefits()
 		{
-			return DiscountHelper.ComputeDiscountForAPerson(this);
+			return DiscountHelper.ComputeAdjustedBenefits(this);
 		}
 
 		[Display(Name = "Associated Employee")]

@@ -7,8 +7,8 @@ namespace EmployeeBenefits.Helpers
 	{
 		List<Discount> Discounts { get; set; }
 
-		decimal ComputeDiscountForAPerson(IPerson person);
-		int ComputeDiscountPercentageForAPerson(IPerson person);
+		decimal ComputeAdjustedBenefits(IPerson person);
+		int ComputeDiscountPercentage(IPerson person);
 		
 		/// <summary>
 		/// Should return a human readable collection detailing the discounts for this entity

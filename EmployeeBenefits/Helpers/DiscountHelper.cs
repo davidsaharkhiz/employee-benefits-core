@@ -22,7 +22,7 @@ namespace EmployeeBenefits.Helpers
 		/// </summary>
 		/// <param name="person">Takes a person to compute a discount for based on that person's criteria and the logic of the discount delegate</param>
 		/// <returns>the sum of the discount percentage for this person</returns>
-		public int ComputeDiscountPercentageForAPerson(IPerson person) {
+		public int ComputeDiscountPercentage(IPerson person) {
 			return Discounts.Where(d => d.Active).Sum(d => d.DiscountCalculation(person));
 		}
 
@@ -43,7 +43,12 @@ namespace EmployeeBenefits.Helpers
 			return summaries;
 		}
 
-		public decimal ComputeDiscountForAPerson(IPerson person) {
+		/// <summary>
+		/// Compute the Adjusted Benefits based on a person's annual cost of benefits and the discount percentage they recieve
+		/// </summary>
+		/// <param name="person">Supply a person to check</param>
+		/// <returns>a decimal representing the annual cost of benefits</returns>
+		public decimal ComputeAdjustedBenefits(IPerson person) {
 			return Decimal.Divide((person.BaseAnnualCostOfBenefits * (100 - person.BenefitsDiscountPercentage())), 100);
 		}
 
