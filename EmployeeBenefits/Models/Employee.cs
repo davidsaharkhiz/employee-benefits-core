@@ -100,8 +100,14 @@ namespace EmployeeBenefits.Models
 		/// Computes a human-readable summary of discounts for each dependent
 		/// </summary>
 		/// <returns>Returns a human-readable summary of discounts for each dependent</returns>
-		public List<string> BenefitsDiscountSummaryForDependents() {
-			return DiscountHelper.BenefitsDiscountSummaryForDependents(ProccessedDependents);
+		public ICollection<string> BenefitsDiscountSummary() {
+
+			var summaries = new List<string>();
+			foreach (var person in ProccessedDependents)
+			{
+				summaries.AddRange(DiscountHelper.BenefitsDiscountSummary(person));
+			}
+			return summaries;
 		}
 
 		#region Computed Properties (I normally avoid these when working with EF because of obvious pitfalls, but they were convenient for this little demo.)

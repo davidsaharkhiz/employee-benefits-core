@@ -8,8 +8,13 @@ namespace EmployeeBenefits.Helpers
 		List<Discount> Discounts { get; set; }
 
 		decimal ComputeDiscountForAPerson(IPerson person);
-		int ComputeDiscountPercentageForAPerson(IPerson employee);
-		//todo: make this generic too!
-		List<string> BenefitsDiscountSummaryForDependents(List<Dependent> proccessedDependents);
+		int ComputeDiscountPercentageForAPerson(IPerson person);
+		
+		/// <summary>
+		/// Should return a human readable collection detailing the discounts for this entity
+		/// </summary>
+		/// <param name="person"></param>
+		/// <returns>A collection detailing the discounts for this entity</returns>
+		ICollection<string> BenefitsDiscountSummary(IPerson person);
 	}
 }

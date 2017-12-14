@@ -100,7 +100,7 @@
 						<td>@employee.NumberOfDependents</td>
 						<td>@employee.BaseCostOfDependentBenefitsFormatted()</td>
 						<td>
-						@foreach (var summary in employee.BenefitsDiscountSummaryForDependents())
+						@foreach (var summary in employee.BenefitsDiscountSummary())
 						{
 							<p>@summary</p>
 						}
