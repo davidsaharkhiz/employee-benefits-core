@@ -161,15 +161,20 @@ namespace EmployeeBenefits.Models
 		}
 
 		/// <summary>
-		/// This computes and returns the net cost to the employer for this employee on a per-paycheck basis. The cost is computed using the employee compensation, benefits, benefits discount, and his or her dependents.
+		/// This computes and returns the net cost to the employer for this employee on an annual basis. The cost is computed using the employee compensation, benefits, benefits discount, and his or her dependents.
 		/// </summary>
-		/// <returns>A formatted string in USD</returns>
+		public decimal NetCost {
+			get {
+				return (CompensationPerPaycheck * Constants.WEEKS_PER_YEAR) - AdjustedAnnualBenefits();
+			}
+		}
+
 		[NotMapped]
 		public string NetCostFormatted
 		{
 			get
 			{
-				return CurrencyHelper.FormatCurrency((CompensationPerPaycheck * Constants.WEEKS_PER_YEAR) - AdjustedAnnualBenefits());
+				return CurrencyHelper.FormatCurrency(NetCost);
 			}
 		}
 
