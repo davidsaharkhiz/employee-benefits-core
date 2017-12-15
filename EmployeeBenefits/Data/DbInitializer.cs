@@ -9,7 +9,8 @@ namespace EmployeeBenefits.Data
 		{
 			context.Database.EnsureCreated();
 
-			// Quick demo hack to seed the test DB
+			// Quick demo hack to seed the test DB 
+			// todo: move this to a migration
 			if (context.Employees.Any())
 			{
 				return;   // DB has been seeded

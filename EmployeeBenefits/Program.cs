@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using EmployeeBenefits.Data;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore;
 
 namespace EmployeeBenefits
 {
@@ -40,7 +41,12 @@ namespace EmployeeBenefits
 			host.Run();
         }
 
-		
+		public static IWebHost BuildWebHost(string[] args) =>
+			WebHost.CreateDefaultBuilder(args)
+				.UseStartup<Startup>()
+				.Build();
+
+
 
 
 	}
